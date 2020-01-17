@@ -41,10 +41,24 @@ dependencies {
     //architecture components
     implementation "androidx.lifecycle:lifecycle-extensions:$androidx_lifecycle_version"
     implementation "com.google.android.material:material:$google_material_version"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
 
     //ui
     implementation "androidx.constraintlayout:constraintlayout:$constraintlayout_version"
     implementation "androidx.vectordrawable:vectordrawable:$androidx_vectordrawable_version"
+    implementation "com.xwray:groupie:$groupie_version"
+    implementation "com.xwray:groupie-kotlin-android-extensions:$groupie_version"
+    implementation "com.xwray:groupie-databinding:$groupie_version"
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
+
+    //rx
+    implementation "io.reactivex.rxjava2:rxjava:$rxjava2_rxjava_version"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxjava2_rxandroid_version"
+    implementation "io.reactivex.rxjava2:rxkotlin:$rxjava2_rxkotlin_version"
+    implementation "com.jakewharton.rxrelay2:rxrelay:$rxrelay2_rxrelay_version"
 
     //navigation
     implementation "androidx.navigation:navigation-fragment:$androidx_navigation_version"
@@ -52,8 +66,12 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$androidx_navigation_version"
     implementation "androidx.navigation:navigation-ui-ktx:$androidx_navigation_version"
 
+    //network
+    implementation "com.squareup.retrofit2:retrofit:$retrofit2_retrofit_version"
+    implementation "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:$retrofit2_rxjava2_adapter_version"
+
     //test
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    testImplementation "junit:junit:$junit_version"
+    androidTestImplementation "androidx.test.ext:junit:$junit_ext_version"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
 }
