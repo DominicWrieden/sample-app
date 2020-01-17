@@ -1,0 +1,23 @@
+ext {
+    minSdkVersion = 16
+    targetSdkVersion = 29
+    androidGradlePluginVersion = '3.5.3'
+
+    kotlin_version = '1.3.61'
+
+
+    androidx_appcompat_version = '1.1.0'
+    androidx_core_ktx_version = '1.1.0'
+    google_material_version = '1.0.0'
+
+
+    //architecture components
+    androidx_lifecycle_version = '2.1.0'
+
+    //ui
+    constraintlayout_version = '1.1.3'
+    androidx_vectordrawable_version = '1.1.0'
+
+    //navigation
+    androidx_navigation_version = '2.1.0'
+}
