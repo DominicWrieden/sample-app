@@ -1,4 +1,4 @@
-package com.dominicwrieden.sampleapp.ui.home
+package com.dominicwrieden.sampleapp.persondisplay
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,20 +10,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.dominicwrieden.sampleapp.R
 
-class HomeFragment : Fragment() {
+class PersonDisplayFragment : Fragment() {
 
-    private lateinit var homeViewModel: HomeViewModel
+    private lateinit var personDisplayViewModel: PersonDisplayViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        homeViewModel =
-            ViewModelProviders.of(this).get(HomeViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_home, container, false)
-        val textView: TextView = root.findViewById(R.id.text_home)
-        homeViewModel.text.observe(this, Observer {
+        personDisplayViewModel =
+            ViewModelProviders.of(this).get(PersonDisplayViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_person_display, container, false)
+        val textView: TextView = root.findViewById(R.id.text_dashboard)
+        personDisplayViewModel.text.observe(this, Observer {
             textView.text = it
         })
         return root

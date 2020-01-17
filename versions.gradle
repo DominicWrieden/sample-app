@@ -33,6 +33,7 @@ ext {
     //network
     retrofit2_retrofit_version = '2.4.0'
     retrofit2_rxjava2_adapter_version = '1.0.0'
+    moshi_version = '1.9.2'
 
     //test
     junit_version = '4.12'

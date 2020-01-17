@@ -69,6 +69,7 @@ dependencies {
     //network
     implementation "com.squareup.retrofit2:retrofit:$retrofit2_retrofit_version"
     implementation "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:$retrofit2_rxjava2_adapter_version"
+    implementation "com.squareup.moshi:moshi:$moshi_version"
 
     //test
     testImplementation "junit:junit:$junit_version"
