@@ -1,7 +1,12 @@
 package com.dominicwrieden.sampleapp.data.entity
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+
+@Entity
 data class Person(
-    val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int,
     val firstname: String,
     val lastName: String
     )
