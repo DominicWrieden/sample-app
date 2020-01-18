@@ -67,9 +67,12 @@ class InputFragment : Fragment() {
     private fun showSaveError(missingInputs: List<MissingInput>) {
         missingInputs.iterator().forEach {
             when (it) {
-                MissingInput.MISSING_FIRST_NAME -> firstName.error = "asdsda"
-                MissingInput.MISSING_LAST_NAME -> lastName.error = "asd"
-                MissingInput.MISSING_ZIP_CODE -> zipCode.error = "asdasd"
+                MissingInput.MISSING_FIRST_NAME ->
+                    firstName.error = getString(R.string.input_text_error_first_name)
+                MissingInput.MISSING_LAST_NAME ->
+                    lastName.error = getString(R.string.input_text_error_last_name)
+                MissingInput.MISSING_ZIP_CODE
+                -> zipCode.error = getString(R.string.input_text_error_zip_code)
             }
         }
     }
@@ -78,7 +81,10 @@ class InputFragment : Fragment() {
      * Show state, when saving the inputs was successful
      */
     private fun showSaveSuccessful() {
-        Snackbar.make(fragment_input, R.string.app_name, Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(
+            fragment_input, R.string.input_snackbar_save_successful,
+            Snackbar.LENGTH_SHORT
+        ).show()
     }
 
     override fun onDetach() {
