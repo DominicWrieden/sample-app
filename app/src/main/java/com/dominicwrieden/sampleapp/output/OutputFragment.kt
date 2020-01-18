@@ -1,4 +1,4 @@
-package com.dominicwrieden.sampleapp.personinput
+package com.dominicwrieden.sampleapp.output
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,20 +10,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.dominicwrieden.sampleapp.R
 
-class PersonInputFragment : Fragment() {
+class OutputFragment : Fragment() {
 
-    private lateinit var personInputViewModel: PersonInputViewModel
+    private lateinit var outputViewModel: OutputViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        personInputViewModel =
-            ViewModelProviders.of(this).get(PersonInputViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_person_input, container, false)
-        val textView: TextView = root.findViewById(R.id.text_home)
-        personInputViewModel.text.observe(this, Observer {
+        outputViewModel =
+            ViewModelProviders.of(this).get(OutputViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_output, container, false)
+        val textView: TextView = root.findViewById(R.id.text_dashboard)
+        outputViewModel.text.observe(this, Observer {
             textView.text = it
         })
         return root

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="title_input">Eingagbe</string>
+    <string name="title_display">Anzeige</string>
+    <string name="title_post">Beiträge</string>
+
+    <!-- Input screen -->
+    <string name="input_text_hint_first_name">Vorname</string>
+    <string name="input_text_hint_last_name">Nachname</string>
+    <string name="input_text_hint_zip_code">Postleitzahl</string>
+    <string name="input_button_title_save">Speichern</string>
+
+</resources>

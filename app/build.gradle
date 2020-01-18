@@ -61,6 +61,8 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:$rxjava2_rxandroid_version"
     implementation "io.reactivex.rxjava2:rxkotlin:$rxjava2_rxkotlin_version"
     implementation "com.jakewharton.rxrelay2:rxrelay:$rxrelay2_rxrelay_version"
+    implementation "com.jakewharton.rxbinding2:rxbinding-kotlin:$rxbinding2_version"
+    implementation "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$rxbinding2_version"
 
     //navigation
     implementation "androidx.navigation:navigation-fragment:$androidx_navigation_version"

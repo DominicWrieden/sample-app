@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.dominicwrieden.sampleapp.personinput.PersonInputFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_person_input" />
+        android:name="com.dominicwrieden.sampleapp.input.InputFragment"
+        android:label="@string/title_input"
+        tools:layout="@layout/fragment_input" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.dominicwrieden.sampleapp.persondisplay.PersonDisplayFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_person_display" />
+        android:name="com.dominicwrieden.sampleapp.output.OutputFragment"
+        android:label="@string/title_display"
+        tools:layout="@layout/fragment_output" />
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.dominicwrieden.sampleapp.post.PostFragment"
-        android:label="@string/title_notifications"
+        android:label="@string/title_post"
         tools:layout="@layout/fragment_post" />
 </navigation>

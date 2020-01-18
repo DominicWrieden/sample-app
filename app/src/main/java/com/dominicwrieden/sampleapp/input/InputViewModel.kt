@@ -1,13 +1,13 @@
-package com.dominicwrieden.sampleapp.persondisplay
+package com.dominicwrieden.sampleapp.input
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class PersonDisplayViewModel : ViewModel() {
+class InputViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is dashboard Fragment"
+        value = "This is home Fragment"
     }
     val text: LiveData<String> = _text
 }

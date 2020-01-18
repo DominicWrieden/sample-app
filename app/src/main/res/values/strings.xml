@@ -1,6 +1,13 @@
 <resources>
-    <string name="app_name">Sample App</string>
-    <string name="title_home">Input</string>
-    <string name="title_dashboard">Display</string>
-    <string name="title_notifications">Post</string>
+    <string name="app_name" translatable="false">Sample App</string>
+    <string name="title_input">Input</string>
+    <string name="title_display">Output</string>
+    <string name="title_post">Post</string>
+
+    <!-- Input screen -->
+    <string name="input_text_hint_first_name">First name</string>
+    <string name="input_text_hint_last_name">Last name</string>
+    <string name="input_text_hint_zip_code">Zip code</string>
+    <string name="input_button_title_save">Save</string>
+
 </resources>
