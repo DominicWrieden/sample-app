@@ -40,6 +40,17 @@ class OutputFragment : Fragment() {
 
         // TODO: Show state from VM
         // TODO: If time, implement DataBinding
+
+        val testData = listOf(
+            Person(1, "Lars", "Schnabel", 28195),
+            Person(2, "Viktor", "Otten", 28195),
+            Person(3, "Jonas", "Corgi", 28195),
+            Person(4, "Kim", "Janine", 28195),
+            Person(5, "Pieter", "Parker", 28195),
+            Person(6, "Barbara", "Unschönberger", 28195),
+            Person(7, "Alfi", "Hardcore", 28195)
+        )
+        showPersons(testData)
     }
 
 
