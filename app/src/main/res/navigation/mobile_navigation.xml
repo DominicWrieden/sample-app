@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.dominicwrieden.sampleapp.post.PostFragment"
-        android:label="@string/title_post"
-        tools:layout="@layout/fragment_post" />
+        android:name="com.dominicwrieden.sampleapp.webservice.WebServiceFragment"
+        android:label="@string/title_web_service"
+        tools:layout="@layout/fragment_web_service" />
 </navigation>

@@ -2,7 +2,7 @@
     <string name="app_name" translatable="false">Sample App</string>
     <string name="title_input">Input</string>
     <string name="title_display">Output</string>
-    <string name="title_post">Post</string>
+    <string name="title_web_service">WebService</string>
 
     <!-- Input screen -->
     <string name="input_text_hint_first_name">First name</string>

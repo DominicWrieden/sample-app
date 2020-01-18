@@ -1,10 +1,10 @@
-package com.dominicwrieden.sampleapp.post
+package com.dominicwrieden.sampleapp.webservice
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class PostViewModel : ViewModel() {
+class WebServiceViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is notifications Fragment"

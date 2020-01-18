@@ -3,7 +3,7 @@
 
     <string name="title_input">Eingagbe</string>
     <string name="title_display">Anzeige</string>
-    <string name="title_post">Beiträge</string>
+    <string name="title_web_service">WebService</string>
 
     <!-- Input screen -->
     <string name="input_text_hint_first_name">Vorname</string>
