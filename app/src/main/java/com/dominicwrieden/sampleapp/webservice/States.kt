@@ -6,4 +6,5 @@ sealed class WebServiceStates {
     object Idle : WebServiceStates()
     data class UpdateList(val posts: List<Post>) : WebServiceStates()
     object UpdateError : WebServiceStates()
+    //TODO Loading State
 }

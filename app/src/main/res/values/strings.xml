@@ -3,6 +3,7 @@
     <string name="title_input">Input</string>
     <string name="title_display">Output</string>
     <string name="title_web_service">WebService</string>
+    <string name="title_settings">Settings</string>
 
     <!-- Input screen -->
     <string name="input_text_hint_first_name">First name</string>
@@ -19,5 +20,15 @@
     <string name="output_item_person_label_frist_name">First name:</string>
     <string name="output_item_person_label_last_name">Last name:</string>
     <string name="output_item_person_label_zip_code">Zip code:</string>
+
+    <!--Setting screen -->
+    <string name="setting_auto_update_headline">Update settings</string>
+    <string name="setting_auto_update_activation_label">Auto update</string>
+    <string name="setting_auto_update_interval_label">Auto update interval</string>
+    <string name="setting_auto_update_interval">%1d min.</string>
+    <string name="setting_others_headline">Other settings</string>
+    <string name="setting_others_change_background_label">Change background</string>
+    <string name="setting_snackbar_background_change_successful">Background successfully changed!</string>
+    <string name="setting_snackbar_background_change_failed">Background change failed!</string>
 
 </resources>

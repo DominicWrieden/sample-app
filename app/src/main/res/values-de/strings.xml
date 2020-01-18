@@ -4,6 +4,7 @@
     <string name="title_input">Eingagbe</string>
     <string name="title_display">Anzeige</string>
     <string name="title_web_service">WebService</string>
+    <string name="title_settings">Einstellungen</string>
 
     <!-- Input screen -->
     <string name="input_text_hint_first_name">Vorname</string>
@@ -20,4 +21,15 @@
     <string name="output_item_person_label_frist_name">Vorname:</string>
     <string name="output_item_person_label_last_name">Nachname:</string>
     <string name="output_item_person_label_zip_code">Postleitzahl:</string>
+
+
+    <!--Setting screen -->
+    <string name="setting_auto_update_headline">Aktualisierungs-Einstellungen</string>
+    <string name="setting_auto_update_activation_label">Automatische Aktualisierungen</string>
+    <string name="setting_auto_update_interval_label">Interval für automatische Aktualisierung</string>
+    <string name="setting_auto_update_interval">%1d Min.</string>
+    <string name="setting_others_headline">Andere Einstellungen</string>
+    <string name="setting_others_change_background_label">Hintergrund wechseln</string>
+    <string name="setting_snackbar_background_change_successful">Hintergrund erfolgreich geändert!</string>
+    <string name="setting_snackbar_background_change_failed">Fehler beim Wechsel des Hintergrunds!</string>
 </resources>
