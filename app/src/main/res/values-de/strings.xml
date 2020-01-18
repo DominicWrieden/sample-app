@@ -11,4 +11,9 @@
     <string name="input_text_hint_zip_code">Postleitzahl</string>
     <string name="input_button_title_save">Speichern</string>
 
+
+    <!-- Output screen -->
+    <string name="output_item_person_label_frist_name">Vorname:</string>
+    <string name="output_item_person_label_last_name">Nachname:</string>
+    <string name="output_item_person_label_zip_code">Postleitzahl:</string>
 </resources>

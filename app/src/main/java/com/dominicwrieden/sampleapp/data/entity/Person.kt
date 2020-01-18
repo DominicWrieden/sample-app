@@ -8,5 +8,6 @@ import androidx.room.PrimaryKey
 data class Person(
     @PrimaryKey(autoGenerate = true) val id: Int,
     val firstname: String,
-    val lastName: String
+    val lastName: String,
+    val zipCode: Int
     )

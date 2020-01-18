@@ -10,4 +10,10 @@
     <string name="input_text_hint_zip_code">Zip code</string>
     <string name="input_button_title_save">Save</string>
 
+
+    <!-- Output screen -->
+    <string name="output_item_person_label_frist_name">First name:</string>
+    <string name="output_item_person_label_last_name">Last name:</string>
+    <string name="output_item_person_label_zip_code">Zip code:</string>
+
 </resources>
