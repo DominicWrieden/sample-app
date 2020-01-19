@@ -39,10 +39,10 @@ class InputViewModelTest {
     fun initialCondition() {
         val inputViewModel = InputViewModel(personRepository)
 
-        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState)
-        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState)
-        Assert.assertEquals(ZipCodeState.Idle, inputViewModel.zipCodeState)
-        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState)
+        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState.value)
+        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState.value)
+        Assert.assertEquals(ZipCodeState.Idle, inputViewModel.zipCodeState.value)
+        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState.value)
     }
 
 
@@ -58,10 +58,13 @@ class InputViewModelTest {
         inputViewModel.saveButtonClicked()
 
 
-        Assert.assertEquals(FirstNameState.ClearInput, inputViewModel.firstNameState)
-        Assert.assertEquals(LastNameState.ClearInput, inputViewModel.lastNameState)
-        Assert.assertEquals(ZipCodeState.ClearInput, inputViewModel.zipCodeState)
-        Assert.assertEquals(NotificationState.SavingSuccessful, inputViewModel.notificationState)
+        Assert.assertEquals(FirstNameState.ClearInput, inputViewModel.firstNameState.value)
+        Assert.assertEquals(LastNameState.ClearInput, inputViewModel.lastNameState.value)
+        Assert.assertEquals(ZipCodeState.ClearInput, inputViewModel.zipCodeState.value)
+        Assert.assertEquals(
+            NotificationState.SavingSuccessful,
+            inputViewModel.notificationState.value
+        )
     }
 
     @Test
@@ -74,10 +77,10 @@ class InputViewModelTest {
 
         inputViewModel.saveButtonClicked()
 
-        Assert.assertEquals(FirstNameState.Missing, inputViewModel.firstNameState)
-        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState)
-        Assert.assertEquals(ZipCodeState.Idle, inputViewModel.zipCodeState)
-        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState)
+        Assert.assertEquals(FirstNameState.Missing, inputViewModel.firstNameState.value)
+        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState.value)
+        Assert.assertEquals(ZipCodeState.Idle, inputViewModel.zipCodeState.value)
+        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState.value)
     }
 
     @Test
@@ -91,10 +94,10 @@ class InputViewModelTest {
         inputViewModel.saveButtonClicked()
 
 
-        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState)
-        Assert.assertEquals(LastNameState.Missing, inputViewModel.lastNameState)
-        Assert.assertEquals(ZipCodeState.Idle, inputViewModel.zipCodeState)
-        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState)
+        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState.value)
+        Assert.assertEquals(LastNameState.Missing, inputViewModel.lastNameState.value)
+        Assert.assertEquals(ZipCodeState.Idle, inputViewModel.zipCodeState.value)
+        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState.value)
     }
 
     @Test
@@ -108,13 +111,13 @@ class InputViewModelTest {
         inputViewModel.saveButtonClicked()
 
 
-        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState)
-        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState)
+        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState.value)
+        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState.value)
         Assert.assertEquals(
             ZipCodeState.Error(ZipCodeErrors.ZIP_CODE_MISSING),
-            inputViewModel.zipCodeState
+            inputViewModel.zipCodeState.value
         )
-        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState)
+        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState.value)
     }
 
     @Test
@@ -128,11 +131,11 @@ class InputViewModelTest {
         inputViewModel.saveButtonClicked()
 
 
-        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState)
-        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState)
+        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState.value)
+        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState.value)
         Assert.assertEquals(
             ZipCodeState.Error(ZipCodeErrors.ZIP_CODE_TOO_SHORT),
-            inputViewModel.zipCodeState
+            inputViewModel.zipCodeState.value
         )
         Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState)
     }
@@ -148,13 +151,13 @@ class InputViewModelTest {
         inputViewModel.saveButtonClicked()
 
 
-        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState)
-        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState)
+        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState.value)
+        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState.value)
         Assert.assertEquals(
             ZipCodeState.Error(ZipCodeErrors.ZIP_CODE_TOO_LONG),
-            inputViewModel.zipCodeState
+            inputViewModel.zipCodeState.value
         )
-        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState)
+        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState.value)
     }
 
     @Test
@@ -167,13 +170,13 @@ class InputViewModelTest {
 
         inputViewModel.saveButtonClicked()
 
-        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState)
-        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState)
+        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState.value)
+        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState.value)
         Assert.assertEquals(
             ZipCodeState.Error(ZipCodeErrors.ZIP_DOES_NOT_EXIST),
-            inputViewModel.zipCodeState
+            inputViewModel.zipCodeState.value
         )
-        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState)
+        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState.value)
     }
 
     @Test
@@ -187,13 +190,13 @@ class InputViewModelTest {
         inputViewModel.saveButtonClicked()
 
 
-        Assert.assertEquals(FirstNameState.Missing, inputViewModel.firstNameState)
-        Assert.assertEquals(LastNameState.Missing, inputViewModel.lastNameState)
+        Assert.assertEquals(FirstNameState.Missing, inputViewModel.firstNameState.value)
+        Assert.assertEquals(LastNameState.Missing, inputViewModel.lastNameState.value)
         Assert.assertEquals(
             ZipCodeState.Idle,
-            inputViewModel.zipCodeState
+            inputViewModel.zipCodeState.value
         )
-        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState)
+        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState.value)
     }
 
     @Test
@@ -207,13 +210,13 @@ class InputViewModelTest {
         inputViewModel.saveButtonClicked()
 
 
-        Assert.assertEquals(FirstNameState.Missing, inputViewModel.firstNameState)
-        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState)
+        Assert.assertEquals(FirstNameState.Missing, inputViewModel.firstNameState.value)
+        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState.value)
         Assert.assertEquals(
             ZipCodeState.Error(ZipCodeErrors.ZIP_DOES_NOT_EXIST),
-            inputViewModel.zipCodeState
+            inputViewModel.zipCodeState.value
         )
-        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState)
+        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState.value)
     }
 
     @Test
@@ -227,13 +230,13 @@ class InputViewModelTest {
         inputViewModel.saveButtonClicked()
 
 
-        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState)
-        Assert.assertEquals(LastNameState.Missing, inputViewModel.lastNameState)
+        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState.value)
+        Assert.assertEquals(LastNameState.Missing, inputViewModel.lastNameState.value)
         Assert.assertEquals(
             ZipCodeState.Error(ZipCodeErrors.ZIP_CODE_TOO_SHORT),
-            inputViewModel.zipCodeState
+            inputViewModel.zipCodeState.value
         )
-        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState)
+        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState.value)
     }
 
     @Test
@@ -247,13 +250,13 @@ class InputViewModelTest {
         inputViewModel.saveButtonClicked()
 
 
-        Assert.assertEquals(FirstNameState.Missing, inputViewModel.firstNameState)
-        Assert.assertEquals(LastNameState.Missing, inputViewModel.lastNameState)
+        Assert.assertEquals(FirstNameState.Missing, inputViewModel.firstNameState.value)
+        Assert.assertEquals(LastNameState.Missing, inputViewModel.lastNameState.value)
         Assert.assertEquals(
             ZipCodeState.Error(ZipCodeErrors.ZIP_CODE_TOO_LONG),
-            inputViewModel.zipCodeState
+            inputViewModel.zipCodeState.value
         )
-        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState)
+        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState.value)
     }
 
     @Test
@@ -268,10 +271,10 @@ class InputViewModelTest {
 
         inputViewModel.saveButtonClicked()
 
-        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState)
-        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState)
-        Assert.assertEquals(ZipCodeState.Idle, inputViewModel.zipCodeState)
-        Assert.assertEquals(NotificationState.SavingFailed, inputViewModel.notificationState)
+        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState.value)
+        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState.value)
+        Assert.assertEquals(ZipCodeState.Idle, inputViewModel.zipCodeState.value)
+        Assert.assertEquals(NotificationState.SavingFailed, inputViewModel.notificationState.value)
     }
 
     @Test
@@ -284,17 +287,17 @@ class InputViewModelTest {
 
         inputViewModel.saveButtonClicked()
 
-        Assert.assertEquals(FirstNameState.Missing, inputViewModel.firstNameState)
-        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState)
-        Assert.assertEquals(ZipCodeState.Idle, inputViewModel.zipCodeState)
-        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState)
+        Assert.assertEquals(FirstNameState.Missing, inputViewModel.firstNameState.value)
+        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState.value)
+        Assert.assertEquals(ZipCodeState.Idle, inputViewModel.zipCodeState.value)
+        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState.value)
 
         inputViewModel.firstNameChanged("asd")
 
-        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState)
-        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState)
-        Assert.assertEquals(ZipCodeState.Idle, inputViewModel.zipCodeState)
-        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState)
+        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState.value)
+        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState.value)
+        Assert.assertEquals(ZipCodeState.Idle, inputViewModel.zipCodeState.value)
+        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState.value)
     }
 
     @Test
@@ -307,17 +310,17 @@ class InputViewModelTest {
 
         inputViewModel.saveButtonClicked()
 
-        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState)
-        Assert.assertEquals(LastNameState.Missing, inputViewModel.lastNameState)
-        Assert.assertEquals(ZipCodeState.Idle, inputViewModel.zipCodeState)
-        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState)
+        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState.value)
+        Assert.assertEquals(LastNameState.Missing, inputViewModel.lastNameState.value)
+        Assert.assertEquals(ZipCodeState.Idle, inputViewModel.zipCodeState.value)
+        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState.value)
 
         inputViewModel.lastNameChanged("asdd")
 
-        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState)
-        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState)
-        Assert.assertEquals(ZipCodeState.Idle, inputViewModel.zipCodeState)
-        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState)
+        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState.value)
+        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState.value)
+        Assert.assertEquals(ZipCodeState.Idle, inputViewModel.zipCodeState.value)
+        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState.value)
     }
 
     @Test
@@ -330,19 +333,19 @@ class InputViewModelTest {
 
         inputViewModel.saveButtonClicked()
 
-        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState)
-        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState)
+        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState.value)
+        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState.value)
         Assert.assertEquals(
             ZipCodeState.Error(ZipCodeErrors.ZIP_CODE_MISSING),
-            inputViewModel.zipCodeState
+            inputViewModel.zipCodeState.value
         )
-        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState)
+        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState.value)
 
         inputViewModel.zipCodeChanged("213")
 
-        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState)
-        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState)
-        Assert.assertEquals(ZipCodeState.Idle, inputViewModel.zipCodeState)
-        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState)
+        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState.value)
+        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState.value)
+        Assert.assertEquals(ZipCodeState.Idle, inputViewModel.zipCodeState.value)
+        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState.value)
     }
 }
