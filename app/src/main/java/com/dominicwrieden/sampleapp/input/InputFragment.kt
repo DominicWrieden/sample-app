@@ -35,7 +35,6 @@ class InputFragment : Fragment() {
 
         setUpTextInputs()
 
-
         // TODO: Show state from VM
         // TODO: If time, implement DataBinding
     }

@@ -9,6 +9,7 @@ ext {
     androidx_appcompat_version = '1.1.0'
     androidx_core_ktx_version = '1.1.0'
     google_material_version = '1.2.0-alpha03'
+    multidex_version = '1.0.3'
 
 
     //architecture components
@@ -35,7 +36,8 @@ ext {
     //network
     retrofit2_retrofit_version = '2.4.0'
     retrofit2_rxjava2_adapter_version = '1.0.0'
-    moshi_version = '1.9.2'
+    moshi_version = '1.7.0'
+    retrofit2_moshi_converter_version= '2.3.0'
 
     //test
     junit_version = '4.12'

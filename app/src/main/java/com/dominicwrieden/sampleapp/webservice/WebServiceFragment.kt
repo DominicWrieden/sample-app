@@ -39,7 +39,6 @@ class WebServiceFragment : Fragment() {
         postList.adapter = postListAdapter
         postListAdapter.add(postListSection)
 
-
         val testData = listOf(
             Post(
                 1,
@@ -62,7 +61,6 @@ class WebServiceFragment : Fragment() {
         )
 
         updatePosts(testData)
-
     }
 
     /**

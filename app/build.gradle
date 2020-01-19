@@ -13,6 +13,7 @@ android {
         applicationId "com.dominicwrieden.sampleapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+        multiDexEnabled true
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -43,8 +44,10 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
     implementation "androidx.core:core-ktx:$androidx_core_ktx_version"
+    implementation "com.android.support:multidex:$multidex_version"
 
     //architecture components
     implementation "androidx.lifecycle:lifecycle-extensions:$androidx_lifecycle_version"
@@ -81,6 +84,7 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit2_retrofit_version"
     implementation "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:$retrofit2_rxjava2_adapter_version"
     implementation "com.squareup.moshi:moshi:$moshi_version"
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofit2_moshi_converter_version"
 
     //test
     testImplementation "junit:junit:$junit_version"

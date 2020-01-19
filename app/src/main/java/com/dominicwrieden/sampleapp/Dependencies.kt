@@ -1,17 +1,24 @@
 package com.dominicwrieden.sampleapp
 
 import com.dominicwrieden.sampleapp.data.local.room.AppDatabase
+import com.dominicwrieden.sampleapp.data.remote.Api
 import com.dominicwrieden.sampleapp.data.repository.PersonRepository
+import com.dominicwrieden.sampleapp.data.repository.PostRepository
 import com.squareup.moshi.Moshi
+import okhttp3.OkHttpClient
 import kotlin.reflect.KProperty
 
 @Suppress("UNCHECKED_CAST", "IMPLICIT_CAST_TO_ANY")
 object Dependencies {
 
     private val moshi = Moshi.Builder()
+        //.add(KotlinJsonAdapterFactory())
         .build()
+    private val httpClient = OkHttpClient.Builder().build()
+    private val api = Api(httpClient, moshi)
     private val roomDb by lazy {AppDatabase.getInstance(App.instance)}
     private val personRepository by lazy {PersonRepository.getInstance(roomDb.getPeronDao())}
+    private val postRepository by lazy { PostRepository.getInstance(roomDb.getPostDao(), api) }
 
 
     fun <T> inject(clazz: Class<T>): T {
@@ -19,6 +26,7 @@ object Dependencies {
             Moshi::class.java -> moshi
             AppDatabase::class.java -> roomDb
             PersonRepository::class.java -> personRepository
+            PostRepository::class.java -> postRepository
             else -> throw IllegalStateException("Can't find dependency for ${clazz.name}")
         } as T
     }
