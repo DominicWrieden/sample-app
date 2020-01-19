@@ -1,14 +1,32 @@
 package com.dominicwrieden.sampleapp.input
 
-enum class MissingInput {
-    MISSING_FIRST_NAME,
-    MISSING_LAST_NAME,
-    MISSING_ZIP_CODE
+enum class ZipCodeErrors {
+    ZIP_CODE_MISSING,
+    ZIP_CODE_TOO_SHORT,
+    ZIP_CODE_TOO_LONG,
+    ZIP_DOES_NOT_EXIST // but matches length
 }
 
+sealed class FirstNameState {
+    object Idle : FirstNameState()
+    object ClearInput : FirstNameState()
+    object Missing : FirstNameState()
+}
 
-sealed class InputStates {
-    object Idle : InputStates()
-    object SaveSuccessful : InputStates()
-    data class SaveError(val missingInputs: List<MissingInput>) : InputStates()
+sealed class LastNameState {
+    object Idle : LastNameState()
+    object ClearInput : LastNameState()
+    object Missing : LastNameState()
+}
+
+sealed class ZipCodeState {
+    object Idle : ZipCodeState()
+    object ClearInput : ZipCodeState()
+    data class Error(val zipCodeErrors: ZipCodeErrors) : ZipCodeState()
+}
+
+sealed class NotificationState {
+    object NotVisible : NotificationState()
+    object SavingSuccessful : NotificationState()
+    object SavingFailed : NotificationState()
 }

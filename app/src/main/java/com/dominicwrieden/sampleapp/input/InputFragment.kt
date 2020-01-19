@@ -1,30 +1,39 @@
 package com.dominicwrieden.sampleapp.input
 
 import android.os.Bundle
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.dominicwrieden.sampleapp.Dependencies
 import com.dominicwrieden.sampleapp.R
+import com.dominicwrieden.sampleapp.data.repository.PersonRepository
+import com.dominicwrieden.sampleapp.input.ZipCodeErrors.*
+import com.dominicwrieden.sampleapp.util.observeWith
 import com.google.android.material.snackbar.Snackbar
-import com.jakewharton.rxbinding2.widget.textChanges
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.fragment_input.*
 
 class InputFragment : Fragment() {
 
-    private lateinit var inputViewModel: InputViewModel
-    private val disposable = CompositeDisposable()
+    private val personRepository: PersonRepository by Dependencies
+
+    private val viewModel: InputViewModel by lazy {
+        ViewModelProviders.of(this, object : ViewModelProvider.Factory {
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                @Suppress("UNCHECKED_CAST")
+                return InputViewModel(personRepository) as T
+            }
+        }).get(InputViewModel::class.java)
+    }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        inputViewModel =
-            ViewModelProviders.of(this).get(InputViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_input, container, false)
 
         return root
@@ -33,61 +42,66 @@ class InputFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setUpTextInputs()
-
-        // TODO: Show state from VM
-        // TODO: If time, implement DataBinding
+        viewModel.firstNameState.observeWith(this) { showFirstNameState(it) }
+        viewModel.lastNameState.observeWith(this) { showLastNameState(it) }
+        viewModel.zipCodeState.observeWith(this) { showZipCodeState(it) }
+        viewModel.notificationState.observeWith(this) { showNotificationState(it) }
     }
 
-    /**
-     * Setting up text input fields
-     */
-    private fun setUpTextInputs() {
-        firstName.editText?.textChanges()?.subscribe { firstName.error = null }?.addTo(disposable)
-        lastName.editText?.textChanges()?.subscribe { lastName.error = null }?.addTo(disposable)
-        zipCode.editText?.textChanges()?.subscribe { zipCode.error = null }?.addTo(disposable)
-    }
+    private fun showFirstNameState(firstNameState: FirstNameState) {
+        when (firstNameState) {
+            FirstNameState.Idle -> firstName.error = null
+            FirstNameState.ClearInput ->
+                firstName.editText?.text = Editable.Factory.getInstance().newEditable("")
+            FirstNameState.Missing ->
+                firstName.error = getString(R.string.input_text_error_first_name)
 
-    /**
-     * Show idle state
-     */
-    private fun showIdle() {
-        firstName.error = null
-        firstName.editText?.text = null
-        lastName.error = null
-        lastName.editText?.text = null
-        zipCode.error = null
-        zipCode.editText?.text = null
-    }
-
-    /**
-     * Show state, when saving the inputs failed
-     */
-    private fun showSaveError(missingInputs: List<MissingInput>) {
-        missingInputs.iterator().forEach {
-            when (it) {
-                MissingInput.MISSING_FIRST_NAME ->
-                    firstName.error = getString(R.string.input_text_error_first_name)
-                MissingInput.MISSING_LAST_NAME ->
-                    lastName.error = getString(R.string.input_text_error_last_name)
-                MissingInput.MISSING_ZIP_CODE
-                -> zipCode.error = getString(R.string.input_text_error_zip_code)
-            }
         }
     }
 
-    /**
-     * Show state, when saving the inputs was successful
-     */
-    private fun showSaveSuccessful() {
-        Snackbar.make(
-            fragment_input, R.string.input_snackbar_save_successful,
-            Snackbar.LENGTH_SHORT
-        ).show()
+    private fun showLastNameState(lastNameState: LastNameState) {
+        when (lastNameState) {
+            LastNameState.Idle -> lastName.error = null
+            LastNameState.ClearInput ->
+                lastName.editText?.text = Editable.Factory.getInstance().newEditable("")
+            LastNameState.Missing ->
+                lastName.error = getString(R.string.input_text_error_last_name)
+        }
     }
 
-    override fun onDetach() {
-        super.onDetach()
-        disposable.dispose()
+    private fun showZipCodeState(zipCodeState: ZipCodeState) {
+        when (zipCodeState) {
+            ZipCodeState.Idle -> zipCode.error = null
+            ZipCodeState.ClearInput ->
+                zipCode.editText?.text = Editable.Factory.getInstance().newEditable("")
+            is ZipCodeState.Error -> showZipCodeError(zipCodeState.zipCodeErrors)
+        }
+    }
+
+    private fun showZipCodeError(zipCodeErrors: ZipCodeErrors) {
+        when (zipCodeErrors) {
+            ZIP_CODE_MISSING ->
+                zipCode.error = getString(R.string.input_text_error_zip_code_missing)
+            ZIP_CODE_TOO_SHORT ->
+                zipCode.error = getString(R.string.input_text_error_zip_code_too_short)
+            ZIP_CODE_TOO_LONG ->
+                zipCode.error = getString(R.string.input_text_error_zip_code_too_long)
+            ZIP_DOES_NOT_EXIST ->
+                zipCode.error = getString(R.string.input_text_error_zip_code_not_existing)
+        }
+    }
+
+    private fun showNotificationState(notificationState: NotificationState) {
+        when (notificationState) {
+            NotificationState.SavingSuccessful ->
+                showSnackbar(getString(R.string.input_snackbar_save_successful))
+            NotificationState.SavingFailed ->
+                showSnackbar(getString(R.string.input_snackbar_save_failed))
+        }
+
+    }
+
+    private fun showSnackbar(message: String) {
+        Snackbar.make(fragment_input, message, Snackbar.LENGTH_SHORT).show()
     }
 }

@@ -11,9 +11,13 @@
     <string name="input_text_hint_zip_code">Zip code</string>
     <string name="input_text_error_first_name">Enter first name</string>
     <string name="input_text_error_last_name">Enter last name</string>
-    <string name="input_text_error_zip_code">Enter zip code</string>
+    <string name="input_text_error_zip_code_missing">Enter zip code</string>
+    <string name="input_text_error_zip_code_too_short">Zip code too short</string>
+    <string name="input_text_error_zip_code_too_long">Zip code too long</string>
+    <string name="input_text_error_zip_code_not_existing">Zip code does not exist</string>
     <string name="input_button_title_save">Save</string>
     <string name="input_snackbar_save_successful">Saving successful!</string>
+    <string name="input_snackbar_save_failed">Saving failed!</string>
 
 
     <!-- Output screen -->

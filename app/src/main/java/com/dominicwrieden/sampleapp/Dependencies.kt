@@ -3,6 +3,7 @@ package com.dominicwrieden.sampleapp
 import com.dominicwrieden.sampleapp.data.local.room.AppDatabase
 import com.dominicwrieden.sampleapp.data.remote.Api
 import com.dominicwrieden.sampleapp.data.repository.PersonRepository
+import com.dominicwrieden.sampleapp.data.repository.PersonRepositoryImpl
 import com.dominicwrieden.sampleapp.data.repository.PostRepository
 import com.dominicwrieden.sampleapp.data.repository.SettingRepository
 import com.dominicwrieden.sampleapp.util.SharedPreferenceUtil
@@ -18,7 +19,8 @@ object Dependencies {
     private val api = Api(httpClient, moshi)
     private val roomDb by lazy {AppDatabase.getInstance(App.instance)}
     private val sharedPreferenceUtil by lazy { SharedPreferenceUtil(App.instance) }
-    private val personRepository by lazy {PersonRepository.getInstance(roomDb.getPeronDao())}
+    private val personRepository: PersonRepository
+            by lazy { PersonRepositoryImpl.getInstance(roomDb.getPeronDao()) }
     private val postRepository by lazy { PostRepository.getInstance(roomDb.getPostDao(), api) }
     private val settingRepository by lazy { SettingRepository.getInstance(sharedPreferenceUtil) }
 

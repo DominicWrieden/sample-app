@@ -1,21 +1,10 @@
 package com.dominicwrieden.sampleapp.data.repository
 
-import com.dominicwrieden.sampleapp.data.local.room.PersonDao
+import android.app.Person
+import io.reactivex.Observable
 
-class PersonRepository private constructor(
-    private val personDao: PersonDao
-) {
+interface PersonRepository {
 
-    companion object {
-        // For Singleton instantiation
-        private var sInstance: PersonRepository? = null
+    fun savePeronData(person: Person): Observable<Boolean>
 
-        fun getInstance(personDao: PersonDao) =
-            sInstance ?: synchronized(this) {
-                sInstance
-                    ?: PersonRepository(
-                        personDao = personDao
-                    ).also { sInstance = it }
-            }
-    }
 }

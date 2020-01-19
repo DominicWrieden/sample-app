@@ -10,11 +10,15 @@
     <string name="input_text_hint_first_name">Vorname</string>
     <string name="input_text_hint_last_name">Nachname</string>
     <string name="input_text_hint_zip_code">Postleitzahl</string>
-    <string name="input_text_error_first_name">Vornamen eingeben!</string>
-    <string name="input_text_error_last_name">Nachnamen eingeben!</string>
-    <string name="input_text_error_zip_code">Postleitzahl eingeben!</string>
+    <string name="input_text_error_first_name">Vornamen eingeben</string>
+    <string name="input_text_error_last_name">Nachnamen eingeben</string>
+    <string name="input_text_error_zip_code_missing">Postleitzahl eingeben</string>
+    <string name="input_text_error_zip_code_too_short">Postleitzahl zu kurz</string>
+    <string name="input_text_error_zip_code_too_long">Postleitzahl zu lang</string>
+    <string name="input_text_error_zip_code_not_existing">Postleitzahl existert nicht</string>
     <string name="input_button_title_save">Speichern</string>
     <string name="input_snackbar_save_successful">Speichern erfolgreich!</string>
+    <string name="input_snackbar_save_failed">Speichern fehlgeschlagen!</string>
 
 
     <!-- Output screen -->
