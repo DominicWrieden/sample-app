@@ -1,25 +1,25 @@
 package com.dominicwrieden.sampleapp.input
 
 import com.InstantTaskExecutorRule
-import com.RxImmediateSchedulerRule
+import com.RxSchedulerRule
 import com.dominicwrieden.sampleapp.data.repository.PersonRepository
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.whenever
-import io.reactivex.Observable
-import org.junit.*
+import com.dominicwrieden.testObserver
+import com.google.common.truth.Truth
+import org.junit.After
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
 
 class InputViewModelTest {
-    @Rule
-    @JvmField
-    var testSchedulerRule = RxImmediateSchedulerRule()
 
-    @Rule
-    @JvmField
-    val ruleForLivaData = InstantTaskExecutorRule()
+    @get:Rule
+    val taskExecutorRule = InstantTaskExecutorRule()
+
+    @get:Rule
+    val rxSchedulerRule = RxSchedulerRule()
 
 
     @Mock
@@ -39,17 +39,37 @@ class InputViewModelTest {
     fun initialCondition() {
         val inputViewModel = InputViewModel(personRepository)
 
-        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState.value)
-        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState.value)
-        Assert.assertEquals(ZipCodeState.Idle, inputViewModel.zipCodeState.value)
-        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState.value)
+        val firstNameState = inputViewModel.firstNameState.testObserver()
+        val lastNameState = inputViewModel.lastNameState.testObserver()
+        val zipCodeState = inputViewModel.zipCodeState.testObserver()
+        val notificationState = inputViewModel.notificationState.testObserver()
+
+        Truth.assert_()
+            .that(firstNameState.observedValues.last())
+            .isEqualTo(FirstNameState.Idle)
+
+        Truth.assert_()
+            .that(lastNameState.observedValues.last())
+            .isEqualTo(LastNameState.Idle)
+
+        Truth.assert_()
+            .that(zipCodeState.observedValues.last())
+            .isEqualTo(ZipCodeState.Idle)
+
+        Truth.assert_()
+            .that(notificationState.observedValues.last())
+            .isEqualTo(NotificationState.NotVisible)
     }
 
 
     @Test
     fun saveClicked_personDataValid() {
-        whenever(personRepository.savePeronData(any())).doReturn(Observable.just(true))
         val inputViewModel = InputViewModel(personRepository)
+
+        val firstNameState = inputViewModel.firstNameState.testObserver()
+        val lastNameState = inputViewModel.lastNameState.testObserver()
+        val zipCodeState = inputViewModel.zipCodeState.testObserver()
+        val notificationState = inputViewModel.notificationState.testObserver()
 
         inputViewModel.firstNameChanged("Ingeborg")
         inputViewModel.lastNameChanged("Schnabel")
@@ -57,19 +77,31 @@ class InputViewModelTest {
 
         inputViewModel.saveButtonClicked()
 
+        Truth.assert_()
+            .that(firstNameState.observedValues.last())
+            .isEqualTo(FirstNameState.ClearInput)
 
-        Assert.assertEquals(FirstNameState.ClearInput, inputViewModel.firstNameState.value)
-        Assert.assertEquals(LastNameState.ClearInput, inputViewModel.lastNameState.value)
-        Assert.assertEquals(ZipCodeState.ClearInput, inputViewModel.zipCodeState.value)
-        Assert.assertEquals(
-            NotificationState.SavingSuccessful,
-            inputViewModel.notificationState.value
-        )
+        Truth.assert_()
+            .that(lastNameState.observedValues.last())
+            .isEqualTo(LastNameState.ClearInput)
+
+        Truth.assert_()
+            .that(zipCodeState.observedValues.last())
+            .isEqualTo(ZipCodeState.ClearInput)
+
+        Truth.assert_()
+            .that(notificationState.observedValues.last())
+            .isEqualTo(NotificationState.SavingSuccessful)
     }
 
     @Test
     fun saveClicked_personDataUnvalid_firstName() {
         val inputViewModel = InputViewModel(personRepository)
+
+        val firstNameState = inputViewModel.firstNameState.testObserver()
+        val lastNameState = inputViewModel.lastNameState.testObserver()
+        val zipCodeState = inputViewModel.zipCodeState.testObserver()
+        val notificationState = inputViewModel.notificationState.testObserver()
 
         inputViewModel.firstNameChanged("")
         inputViewModel.lastNameChanged("Schnabel")
@@ -77,15 +109,32 @@ class InputViewModelTest {
 
         inputViewModel.saveButtonClicked()
 
-        Assert.assertEquals(FirstNameState.Missing, inputViewModel.firstNameState.value)
-        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState.value)
-        Assert.assertEquals(ZipCodeState.Idle, inputViewModel.zipCodeState.value)
-        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState.value)
+        Truth.assert_()
+            .that(firstNameState.observedValues.last())
+            .isEqualTo(FirstNameState.Missing)
+
+        Truth.assert_()
+            .that(lastNameState.observedValues.last())
+            .isEqualTo(LastNameState.Idle)
+
+        Truth.assert_()
+            .that(zipCodeState.observedValues.last())
+            .isEqualTo(ZipCodeState.Idle)
+
+        Truth.assert_()
+            .that(notificationState.observedValues.last())
+            .isEqualTo(NotificationState.NotVisible)
     }
 
     @Test
     fun saveClicked_personDataUnvalid_lastName() {
         val inputViewModel = InputViewModel(personRepository)
+
+        val firstNameState = inputViewModel.firstNameState.testObserver()
+        val lastNameState = inputViewModel.lastNameState.testObserver()
+        val zipCodeState = inputViewModel.zipCodeState.testObserver()
+        val notificationState = inputViewModel.notificationState.testObserver()
+
 
         inputViewModel.firstNameChanged("Ingeborg")
         inputViewModel.lastNameChanged("")
@@ -94,15 +143,31 @@ class InputViewModelTest {
         inputViewModel.saveButtonClicked()
 
 
-        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState.value)
-        Assert.assertEquals(LastNameState.Missing, inputViewModel.lastNameState.value)
-        Assert.assertEquals(ZipCodeState.Idle, inputViewModel.zipCodeState.value)
-        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState.value)
+        Truth.assert_()
+            .that(firstNameState.observedValues.last())
+            .isEqualTo(FirstNameState.Idle)
+
+        Truth.assert_()
+            .that(lastNameState.observedValues.last())
+            .isEqualTo(LastNameState.Missing)
+
+        Truth.assert_()
+            .that(zipCodeState.observedValues.last())
+            .isEqualTo(ZipCodeState.Idle)
+
+        Truth.assert_()
+            .that(notificationState.observedValues.last())
+            .isEqualTo(NotificationState.NotVisible)
     }
 
     @Test
     fun saveClicked_personDataUnvalid_zipCode_missing() {
         val inputViewModel = InputViewModel(personRepository)
+
+        val firstNameState = inputViewModel.firstNameState.testObserver()
+        val lastNameState = inputViewModel.lastNameState.testObserver()
+        val zipCodeState = inputViewModel.zipCodeState.testObserver()
+        val notificationState = inputViewModel.notificationState.testObserver()
 
         inputViewModel.firstNameChanged("Ingeborg")
         inputViewModel.lastNameChanged("Schnabel")
@@ -110,19 +175,31 @@ class InputViewModelTest {
 
         inputViewModel.saveButtonClicked()
 
+        Truth.assert_()
+            .that(firstNameState.observedValues.last())
+            .isEqualTo(FirstNameState.Idle)
 
-        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState.value)
-        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState.value)
-        Assert.assertEquals(
-            ZipCodeState.Error(ZipCodeErrors.ZIP_CODE_MISSING),
-            inputViewModel.zipCodeState.value
-        )
-        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState.value)
+        Truth.assert_()
+            .that(lastNameState.observedValues.last())
+            .isEqualTo(LastNameState.Idle)
+
+        Truth.assert_()
+            .that(zipCodeState.observedValues.last())
+            .isEqualTo(ZipCodeState.Error(ZipCodeErrors.ZIP_CODE_MISSING))
+
+        Truth.assert_()
+            .that(notificationState.observedValues.last())
+            .isEqualTo(NotificationState.NotVisible)
     }
 
     @Test
     fun saveClicked_personDataUnvalid_zipCode_tooShort() {
         val inputViewModel = InputViewModel(personRepository)
+
+        val firstNameState = inputViewModel.firstNameState.testObserver()
+        val lastNameState = inputViewModel.lastNameState.testObserver()
+        val zipCodeState = inputViewModel.zipCodeState.testObserver()
+        val notificationState = inputViewModel.notificationState.testObserver()
 
         inputViewModel.firstNameChanged("Ingeborg")
         inputViewModel.lastNameChanged("Schnabel")
@@ -130,19 +207,31 @@ class InputViewModelTest {
 
         inputViewModel.saveButtonClicked()
 
+        Truth.assert_()
+            .that(firstNameState.observedValues.last())
+            .isEqualTo(FirstNameState.Idle)
 
-        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState.value)
-        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState.value)
-        Assert.assertEquals(
-            ZipCodeState.Error(ZipCodeErrors.ZIP_CODE_TOO_SHORT),
-            inputViewModel.zipCodeState.value
-        )
-        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState)
+        Truth.assert_()
+            .that(lastNameState.observedValues.last())
+            .isEqualTo(LastNameState.Idle)
+
+        Truth.assert_()
+            .that(zipCodeState.observedValues.last())
+            .isEqualTo(ZipCodeState.Error(ZipCodeErrors.ZIP_CODE_TOO_SHORT))
+
+        Truth.assert_()
+            .that(notificationState.observedValues.last())
+            .isEqualTo(NotificationState.NotVisible)
     }
 
     @Test
     fun saveClicked_personDataUnvalid_zipCode_tooLong() {
         val inputViewModel = InputViewModel(personRepository)
+
+        val firstNameState = inputViewModel.firstNameState.testObserver()
+        val lastNameState = inputViewModel.lastNameState.testObserver()
+        val zipCodeState = inputViewModel.zipCodeState.testObserver()
+        val notificationState = inputViewModel.notificationState.testObserver()
 
         inputViewModel.firstNameChanged("Ingeborg")
         inputViewModel.lastNameChanged("Schnabel")
@@ -150,19 +239,31 @@ class InputViewModelTest {
 
         inputViewModel.saveButtonClicked()
 
+        Truth.assert_()
+            .that(firstNameState.observedValues.last())
+            .isEqualTo(FirstNameState.Idle)
 
-        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState.value)
-        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState.value)
-        Assert.assertEquals(
-            ZipCodeState.Error(ZipCodeErrors.ZIP_CODE_TOO_LONG),
-            inputViewModel.zipCodeState.value
-        )
-        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState.value)
+        Truth.assert_()
+            .that(lastNameState.observedValues.last())
+            .isEqualTo(LastNameState.Idle)
+
+        Truth.assert_()
+            .that(zipCodeState.observedValues.last())
+            .isEqualTo(ZipCodeState.Error(ZipCodeErrors.ZIP_CODE_TOO_LONG))
+
+        Truth.assert_()
+            .that(notificationState.observedValues.last())
+            .isEqualTo(NotificationState.NotVisible)
     }
 
     @Test
     fun saveClicked_personDataUnvalid_zipCode_notExisting() {
         val inputViewModel = InputViewModel(personRepository)
+
+        val firstNameState = inputViewModel.firstNameState.testObserver()
+        val lastNameState = inputViewModel.lastNameState.testObserver()
+        val zipCodeState = inputViewModel.zipCodeState.testObserver()
+        val notificationState = inputViewModel.notificationState.testObserver()
 
         inputViewModel.firstNameChanged("Ingeborg")
         inputViewModel.lastNameChanged("Schnabel")
@@ -170,18 +271,31 @@ class InputViewModelTest {
 
         inputViewModel.saveButtonClicked()
 
-        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState.value)
-        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState.value)
-        Assert.assertEquals(
-            ZipCodeState.Error(ZipCodeErrors.ZIP_DOES_NOT_EXIST),
-            inputViewModel.zipCodeState.value
-        )
-        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState.value)
+        Truth.assert_()
+            .that(firstNameState.observedValues.last())
+            .isEqualTo(FirstNameState.Idle)
+
+        Truth.assert_()
+            .that(lastNameState.observedValues.last())
+            .isEqualTo(LastNameState.Idle)
+
+        Truth.assert_()
+            .that(zipCodeState.observedValues.last())
+            .isEqualTo(ZipCodeState.Error(ZipCodeErrors.ZIP_DOES_NOT_EXIST))
+
+        Truth.assert_()
+            .that(notificationState.observedValues.last())
+            .isEqualTo(NotificationState.NotVisible)
     }
 
     @Test
     fun saveClicked_personDataUnvalid_firstName_lastName() {
         val inputViewModel = InputViewModel(personRepository)
+
+        val firstNameState = inputViewModel.firstNameState.testObserver()
+        val lastNameState = inputViewModel.lastNameState.testObserver()
+        val zipCodeState = inputViewModel.zipCodeState.testObserver()
+        val notificationState = inputViewModel.notificationState.testObserver()
 
         inputViewModel.firstNameChanged("")
         inputViewModel.lastNameChanged("")
@@ -189,19 +303,31 @@ class InputViewModelTest {
 
         inputViewModel.saveButtonClicked()
 
+        Truth.assert_()
+            .that(firstNameState.observedValues.last())
+            .isEqualTo(FirstNameState.Missing)
 
-        Assert.assertEquals(FirstNameState.Missing, inputViewModel.firstNameState.value)
-        Assert.assertEquals(LastNameState.Missing, inputViewModel.lastNameState.value)
-        Assert.assertEquals(
-            ZipCodeState.Idle,
-            inputViewModel.zipCodeState.value
-        )
-        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState.value)
+        Truth.assert_()
+            .that(lastNameState.observedValues.last())
+            .isEqualTo(LastNameState.Missing)
+
+        Truth.assert_()
+            .that(zipCodeState.observedValues.last())
+            .isEqualTo(ZipCodeState.Idle)
+
+        Truth.assert_()
+            .that(notificationState.observedValues.last())
+            .isEqualTo(NotificationState.NotVisible)
     }
 
     @Test
     fun saveClicked_personDataUnvalid_firstName_zipCodeNotExisting() {
         val inputViewModel = InputViewModel(personRepository)
+
+        val firstNameState = inputViewModel.firstNameState.testObserver()
+        val lastNameState = inputViewModel.lastNameState.testObserver()
+        val zipCodeState = inputViewModel.zipCodeState.testObserver()
+        val notificationState = inputViewModel.notificationState.testObserver()
 
         inputViewModel.firstNameChanged("")
         inputViewModel.lastNameChanged("Schnabel")
@@ -209,19 +335,31 @@ class InputViewModelTest {
 
         inputViewModel.saveButtonClicked()
 
+        Truth.assert_()
+            .that(firstNameState.observedValues.last())
+            .isEqualTo(FirstNameState.Missing)
 
-        Assert.assertEquals(FirstNameState.Missing, inputViewModel.firstNameState.value)
-        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState.value)
-        Assert.assertEquals(
-            ZipCodeState.Error(ZipCodeErrors.ZIP_DOES_NOT_EXIST),
-            inputViewModel.zipCodeState.value
-        )
-        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState.value)
+        Truth.assert_()
+            .that(lastNameState.observedValues.last())
+            .isEqualTo(LastNameState.Idle)
+
+        Truth.assert_()
+            .that(zipCodeState.observedValues.last())
+            .isEqualTo(ZipCodeState.Error(ZipCodeErrors.ZIP_DOES_NOT_EXIST))
+
+        Truth.assert_()
+            .that(notificationState.observedValues.last())
+            .isEqualTo(NotificationState.NotVisible)
     }
 
     @Test
     fun saveClicked_personDataUnvalid_lastName_zipCodeTooShort() {
         val inputViewModel = InputViewModel(personRepository)
+
+        val firstNameState = inputViewModel.firstNameState.testObserver()
+        val lastNameState = inputViewModel.lastNameState.testObserver()
+        val zipCodeState = inputViewModel.zipCodeState.testObserver()
+        val notificationState = inputViewModel.notificationState.testObserver()
 
         inputViewModel.firstNameChanged("Dieter")
         inputViewModel.lastNameChanged("")
@@ -229,19 +367,31 @@ class InputViewModelTest {
 
         inputViewModel.saveButtonClicked()
 
+        Truth.assert_()
+            .that(firstNameState.observedValues.last())
+            .isEqualTo(FirstNameState.Idle)
 
-        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState.value)
-        Assert.assertEquals(LastNameState.Missing, inputViewModel.lastNameState.value)
-        Assert.assertEquals(
-            ZipCodeState.Error(ZipCodeErrors.ZIP_CODE_TOO_SHORT),
-            inputViewModel.zipCodeState.value
-        )
-        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState.value)
+        Truth.assert_()
+            .that(lastNameState.observedValues.last())
+            .isEqualTo(LastNameState.Missing)
+
+        Truth.assert_()
+            .that(zipCodeState.observedValues.last())
+            .isEqualTo(ZipCodeState.Error(ZipCodeErrors.ZIP_CODE_TOO_SHORT))
+
+        Truth.assert_()
+            .that(notificationState.observedValues.last())
+            .isEqualTo(NotificationState.NotVisible)
     }
 
     @Test
     fun saveClicked_personDataUnvalid_firstName_lastName_zipCodeTooLong() {
         val inputViewModel = InputViewModel(personRepository)
+
+        val firstNameState = inputViewModel.firstNameState.testObserver()
+        val lastNameState = inputViewModel.lastNameState.testObserver()
+        val zipCodeState = inputViewModel.zipCodeState.testObserver()
+        val notificationState = inputViewModel.notificationState.testObserver()
 
         inputViewModel.firstNameChanged("")
         inputViewModel.lastNameChanged("")
@@ -249,37 +399,31 @@ class InputViewModelTest {
 
         inputViewModel.saveButtonClicked()
 
+        Truth.assert_()
+            .that(firstNameState.observedValues.last())
+            .isEqualTo(FirstNameState.Missing)
 
-        Assert.assertEquals(FirstNameState.Missing, inputViewModel.firstNameState.value)
-        Assert.assertEquals(LastNameState.Missing, inputViewModel.lastNameState.value)
-        Assert.assertEquals(
-            ZipCodeState.Error(ZipCodeErrors.ZIP_CODE_TOO_LONG),
-            inputViewModel.zipCodeState.value
-        )
-        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState.value)
-    }
+        Truth.assert_()
+            .that(lastNameState.observedValues.last())
+            .isEqualTo(LastNameState.Missing)
 
-    @Test
-    fun saveClicked_savingFailed() {
-        whenever(personRepository.savePeronData(any())).doReturn(Observable.just(false))
+        Truth.assert_()
+            .that(zipCodeState.observedValues.last())
+            .isEqualTo(ZipCodeState.Error(ZipCodeErrors.ZIP_CODE_TOO_LONG))
 
-        val inputViewModel = InputViewModel(personRepository)
-
-        inputViewModel.firstNameChanged("Klaus")
-        inputViewModel.lastNameChanged("Wowi")
-        inputViewModel.zipCodeChanged("28213")
-
-        inputViewModel.saveButtonClicked()
-
-        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState.value)
-        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState.value)
-        Assert.assertEquals(ZipCodeState.Idle, inputViewModel.zipCodeState.value)
-        Assert.assertEquals(NotificationState.SavingFailed, inputViewModel.notificationState.value)
+        Truth.assert_()
+            .that(notificationState.observedValues.last())
+            .isEqualTo(NotificationState.NotVisible)
     }
 
     @Test
     fun saveClicked_firstName_clearError() {
         val inputViewModel = InputViewModel(personRepository)
+
+        val firstNameState = inputViewModel.firstNameState.testObserver()
+        val lastNameState = inputViewModel.lastNameState.testObserver()
+        val zipCodeState = inputViewModel.zipCodeState.testObserver()
+        val notificationState = inputViewModel.notificationState.testObserver()
 
         inputViewModel.firstNameChanged("")
         inputViewModel.lastNameChanged("Wowi")
@@ -287,22 +431,49 @@ class InputViewModelTest {
 
         inputViewModel.saveButtonClicked()
 
-        Assert.assertEquals(FirstNameState.Missing, inputViewModel.firstNameState.value)
-        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState.value)
-        Assert.assertEquals(ZipCodeState.Idle, inputViewModel.zipCodeState.value)
-        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState.value)
+        Truth.assert_()
+            .that(firstNameState.observedValues.last())
+            .isEqualTo(FirstNameState.Missing)
+
+        Truth.assert_()
+            .that(lastNameState.observedValues.last())
+            .isEqualTo(LastNameState.Idle)
+
+        Truth.assert_()
+            .that(zipCodeState.observedValues.last())
+            .isEqualTo(ZipCodeState.Idle)
+
+        Truth.assert_()
+            .that(notificationState.observedValues.last())
+            .isEqualTo(NotificationState.NotVisible)
 
         inputViewModel.firstNameChanged("asd")
 
-        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState.value)
-        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState.value)
-        Assert.assertEquals(ZipCodeState.Idle, inputViewModel.zipCodeState.value)
-        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState.value)
+        Truth.assert_()
+            .that(firstNameState.observedValues.last())
+            .isEqualTo(FirstNameState.Idle)
+
+        Truth.assert_()
+            .that(lastNameState.observedValues.last())
+            .isEqualTo(LastNameState.Idle)
+
+        Truth.assert_()
+            .that(zipCodeState.observedValues.last())
+            .isEqualTo(ZipCodeState.Idle)
+
+        Truth.assert_()
+            .that(notificationState.observedValues.last())
+            .isEqualTo(NotificationState.NotVisible)
     }
 
     @Test
     fun saveClicked_lastName_clearError() {
         val inputViewModel = InputViewModel(personRepository)
+
+        val firstNameState = inputViewModel.firstNameState.testObserver()
+        val lastNameState = inputViewModel.lastNameState.testObserver()
+        val zipCodeState = inputViewModel.zipCodeState.testObserver()
+        val notificationState = inputViewModel.notificationState.testObserver()
 
         inputViewModel.firstNameChanged("Wolf")
         inputViewModel.lastNameChanged("")
@@ -310,22 +481,49 @@ class InputViewModelTest {
 
         inputViewModel.saveButtonClicked()
 
-        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState.value)
-        Assert.assertEquals(LastNameState.Missing, inputViewModel.lastNameState.value)
-        Assert.assertEquals(ZipCodeState.Idle, inputViewModel.zipCodeState.value)
-        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState.value)
+        Truth.assert_()
+            .that(firstNameState.observedValues.last())
+            .isEqualTo(FirstNameState.Idle)
+
+        Truth.assert_()
+            .that(lastNameState.observedValues.last())
+            .isEqualTo(LastNameState.Missing)
+
+        Truth.assert_()
+            .that(zipCodeState.observedValues.last())
+            .isEqualTo(ZipCodeState.Idle)
+
+        Truth.assert_()
+            .that(notificationState.observedValues.last())
+            .isEqualTo(NotificationState.NotVisible)
 
         inputViewModel.lastNameChanged("asdd")
 
-        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState.value)
-        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState.value)
-        Assert.assertEquals(ZipCodeState.Idle, inputViewModel.zipCodeState.value)
-        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState.value)
+        Truth.assert_()
+            .that(firstNameState.observedValues.last())
+            .isEqualTo(FirstNameState.Idle)
+
+        Truth.assert_()
+            .that(lastNameState.observedValues.last())
+            .isEqualTo(LastNameState.Idle)
+
+        Truth.assert_()
+            .that(zipCodeState.observedValues.last())
+            .isEqualTo(ZipCodeState.Idle)
+
+        Truth.assert_()
+            .that(notificationState.observedValues.last())
+            .isEqualTo(NotificationState.NotVisible)
     }
 
     @Test
     fun saveClicked_zipCode_clearError() {
         val inputViewModel = InputViewModel(personRepository)
+
+        val firstNameState = inputViewModel.firstNameState.testObserver()
+        val lastNameState = inputViewModel.lastNameState.testObserver()
+        val zipCodeState = inputViewModel.zipCodeState.testObserver()
+        val notificationState = inputViewModel.notificationState.testObserver()
 
         inputViewModel.firstNameChanged("Wolf")
         inputViewModel.lastNameChanged("Wolfensen")
@@ -333,19 +531,38 @@ class InputViewModelTest {
 
         inputViewModel.saveButtonClicked()
 
-        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState.value)
-        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState.value)
-        Assert.assertEquals(
-            ZipCodeState.Error(ZipCodeErrors.ZIP_CODE_MISSING),
-            inputViewModel.zipCodeState.value
-        )
-        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState.value)
+        Truth.assert_()
+            .that(firstNameState.observedValues.last())
+            .isEqualTo(FirstNameState.Idle)
+
+        Truth.assert_()
+            .that(lastNameState.observedValues.last())
+            .isEqualTo(LastNameState.Idle)
+
+        Truth.assert_()
+            .that(zipCodeState.observedValues.last())
+            .isEqualTo(ZipCodeState.Error(ZipCodeErrors.ZIP_CODE_MISSING))
+
+        Truth.assert_()
+            .that(notificationState.observedValues.last())
+            .isEqualTo(NotificationState.NotVisible)
 
         inputViewModel.zipCodeChanged("213")
 
-        Assert.assertEquals(FirstNameState.Idle, inputViewModel.firstNameState.value)
-        Assert.assertEquals(LastNameState.Idle, inputViewModel.lastNameState.value)
-        Assert.assertEquals(ZipCodeState.Idle, inputViewModel.zipCodeState.value)
-        Assert.assertEquals(NotificationState.NotVisible, inputViewModel.notificationState.value)
+        Truth.assert_()
+            .that(firstNameState.observedValues.last())
+            .isEqualTo(FirstNameState.Idle)
+
+        Truth.assert_()
+            .that(lastNameState.observedValues.last())
+            .isEqualTo(LastNameState.Idle)
+
+        Truth.assert_()
+            .that(zipCodeState.observedValues.last())
+            .isEqualTo(ZipCodeState.Idle)
+
+        Truth.assert_()
+            .that(notificationState.observedValues.last())
+            .isEqualTo(NotificationState.NotVisible)
     }
 }

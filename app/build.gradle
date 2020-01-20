@@ -51,6 +51,7 @@ dependencies {
 
     //architecture components
     implementation "androidx.lifecycle:lifecycle-extensions:$androidx_lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-reactivestreams:$androidx_lifecycle_version"
     implementation "com.google.android.material:material:$google_material_version"
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
@@ -91,5 +92,6 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$junit_ext_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_kotlin_version"
+    testImplementation "com.google.truth:truth:0.36"
     androidTestImplementation "androidx.arch.core:core-testing:$androidx_arch_core_testing_version"
 }
