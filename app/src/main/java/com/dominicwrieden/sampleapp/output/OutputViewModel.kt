@@ -3,11 +3,9 @@ package com.dominicwrieden.sampleapp.output
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.dominicwrieden.sampleapp.data.repository.PersonRepository
 
-class OutputViewModel : ViewModel() {
+class OutputViewModel(private val personRepository: PersonRepository) : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is dashboard Fragment"
-    }
-    val text: LiveData<String> = _text
+    val personListState: LiveData<PersonListState> = MutableLiveData<PersonListState>()
 }

@@ -21,11 +21,14 @@ class PersonRepositoryImpl private constructor(private val personDao: PersonDao)
             }
     }
 
-    override fun savePeronData(person: Person) {
+    override fun savePersonData(person: Person) {
         Observable.just(Unit)
             .subscribeOn(Schedulers.io()).subscribe {
                 personDao.insertPerson(person)
             }
+    }
 
+    override fun getPersonList(): Observable<List<Person>> {
+        return Observable.just(emptyList())
     }
 }

@@ -5,7 +5,10 @@ import com.RxSchedulerRule
 import com.dominicwrieden.sampleapp.data.repository.PersonRepository
 import com.dominicwrieden.testObserver
 import com.google.common.truth.Truth
-import org.junit.*
+import org.junit.Before
+import org.junit.Ignore
+import org.junit.Rule
+import org.junit.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
@@ -26,10 +29,6 @@ class InputViewModelTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-    }
-
-    @After
-    fun tearDown() {
     }
 
     @Test

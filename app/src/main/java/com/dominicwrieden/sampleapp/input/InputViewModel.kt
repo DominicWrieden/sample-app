@@ -124,7 +124,7 @@ class InputViewModel(private val personRepository: PersonRepository) : ViewModel
                 zipCode = Integer.valueOf(zipCodeChangedSubject.value!!.trim())
             )
 
-            personRepository.savePeronData(person)
+            personRepository.savePersonData(person)
 
             personDataSavedSubject.onNext(true)
         }

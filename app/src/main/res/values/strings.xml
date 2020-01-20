@@ -24,6 +24,7 @@
     <string name="output_item_person_label_frist_name">First name:</string>
     <string name="output_item_person_label_last_name">Last name:</string>
     <string name="output_item_person_label_zip_code">Zip code:</string>
+    <string name="output_list_empty_label">Empty \n :\'(</string>
 
     <!--Setting screen -->
     <string name="setting_auto_update_headline">Update settings</string>
