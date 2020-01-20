@@ -15,11 +15,17 @@ import com.dominicwrieden.sampleapp.data.repository.PersonRepository
 import com.dominicwrieden.sampleapp.input.ZipCodeErrors.*
 import com.dominicwrieden.sampleapp.util.observeWith
 import com.google.android.material.snackbar.Snackbar
+import com.jakewharton.rxbinding2.view.clicks
+import com.jakewharton.rxbinding2.widget.textChanges
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.fragment_input.*
 
 class InputFragment : Fragment() {
 
     private val personRepository: PersonRepository by Dependencies
+
+    private val disposable = CompositeDisposable()
 
     private val viewModel: InputViewModel by lazy {
         ViewModelProviders.of(this, object : ViewModelProvider.Factory {
@@ -46,6 +52,24 @@ class InputFragment : Fragment() {
         viewModel.lastNameState.observeWith(this) { showLastNameState(it) }
         viewModel.zipCodeState.observeWith(this) { showZipCodeState(it) }
         viewModel.notificationState.observeWith(this) { showNotificationState(it) }
+
+
+        firstName.editText
+            ?.textChanges()
+            ?.subscribe { viewModel.firstNameChanged(it.toString()) }
+            ?.addTo(disposable)
+
+        lastName.editText
+            ?.textChanges()
+            ?.subscribe { viewModel.lastNameChanged(it.toString()) }
+            ?.addTo(disposable)
+
+        zipCode.editText
+            ?.textChanges()
+            ?.subscribe { viewModel.zipCodeChanged(it.toString()) }
+            ?.addTo(disposable)
+
+        save.clicks().subscribe { viewModel.saveButtonClicked() }.addTo(disposable)
     }
 
     private fun showFirstNameState(firstNameState: FirstNameState) {
@@ -55,7 +79,6 @@ class InputFragment : Fragment() {
                 firstName.editText?.text = Editable.Factory.getInstance().newEditable("")
             FirstNameState.Missing ->
                 firstName.error = getString(R.string.input_text_error_first_name)
-
         }
     }
 
@@ -98,7 +121,6 @@ class InputFragment : Fragment() {
             NotificationState.SavingFailed ->
                 showSnackbar(getString(R.string.input_snackbar_save_failed))
         }
-
     }
 
     private fun showSnackbar(message: String) {

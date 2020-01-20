@@ -1,8 +1,9 @@
 package com.dominicwrieden.sampleapp.data.repository
 
-import android.app.Person
+import com.dominicwrieden.sampleapp.data.entity.Person
 import com.dominicwrieden.sampleapp.data.local.room.PersonDao
 import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
 
 class PersonRepositoryImpl private constructor(private val personDao: PersonDao) :
     PersonRepository {
@@ -20,7 +21,11 @@ class PersonRepositoryImpl private constructor(private val personDao: PersonDao)
             }
     }
 
-    override fun savePeronData(person: Person): Observable<Boolean> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun savePeronData(person: Person) {
+        Observable.just(Unit)
+            .subscribeOn(Schedulers.io()).subscribe {
+                personDao.insertPerson(person)
+            }
+
     }
 }

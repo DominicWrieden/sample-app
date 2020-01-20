@@ -1,10 +1,9 @@
 package com.dominicwrieden.sampleapp.data.repository
 
-import android.app.Person
-import io.reactivex.Observable
+import com.dominicwrieden.sampleapp.data.entity.Person
 
 interface PersonRepository {
 
-    fun savePeronData(person: Person): Observable<Boolean>
+    fun savePeronData(person: Person)
 
 }

@@ -5,10 +5,7 @@ import com.RxSchedulerRule
 import com.dominicwrieden.sampleapp.data.repository.PersonRepository
 import com.dominicwrieden.testObserver
 import com.google.common.truth.Truth
-import org.junit.After
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
+import org.junit.*
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
@@ -42,7 +39,7 @@ class InputViewModelTest {
         val firstNameState = inputViewModel.firstNameState.testObserver()
         val lastNameState = inputViewModel.lastNameState.testObserver()
         val zipCodeState = inputViewModel.zipCodeState.testObserver()
-        val notificationState = inputViewModel.notificationState.testObserver()
+        val notificationState = inputViewModel.getNotificationStateTest().testObserver()
 
         Truth.assert_()
             .that(firstNameState.observedValues.last())
@@ -69,7 +66,7 @@ class InputViewModelTest {
         val firstNameState = inputViewModel.firstNameState.testObserver()
         val lastNameState = inputViewModel.lastNameState.testObserver()
         val zipCodeState = inputViewModel.zipCodeState.testObserver()
-        val notificationState = inputViewModel.notificationState.testObserver()
+        val notificationState = inputViewModel.getNotificationStateTest().testObserver()
 
         inputViewModel.firstNameChanged("Ingeborg")
         inputViewModel.lastNameChanged("Schnabel")
@@ -101,7 +98,7 @@ class InputViewModelTest {
         val firstNameState = inputViewModel.firstNameState.testObserver()
         val lastNameState = inputViewModel.lastNameState.testObserver()
         val zipCodeState = inputViewModel.zipCodeState.testObserver()
-        val notificationState = inputViewModel.notificationState.testObserver()
+        val notificationState = inputViewModel.getNotificationStateTest().testObserver()
 
         inputViewModel.firstNameChanged("")
         inputViewModel.lastNameChanged("Schnabel")
@@ -133,8 +130,7 @@ class InputViewModelTest {
         val firstNameState = inputViewModel.firstNameState.testObserver()
         val lastNameState = inputViewModel.lastNameState.testObserver()
         val zipCodeState = inputViewModel.zipCodeState.testObserver()
-        val notificationState = inputViewModel.notificationState.testObserver()
-
+        val notificationState = inputViewModel.getNotificationStateTest().testObserver()
 
         inputViewModel.firstNameChanged("Ingeborg")
         inputViewModel.lastNameChanged("")
@@ -167,7 +163,7 @@ class InputViewModelTest {
         val firstNameState = inputViewModel.firstNameState.testObserver()
         val lastNameState = inputViewModel.lastNameState.testObserver()
         val zipCodeState = inputViewModel.zipCodeState.testObserver()
-        val notificationState = inputViewModel.notificationState.testObserver()
+        val notificationState = inputViewModel.getNotificationStateTest().testObserver()
 
         inputViewModel.firstNameChanged("Ingeborg")
         inputViewModel.lastNameChanged("Schnabel")
@@ -199,7 +195,7 @@ class InputViewModelTest {
         val firstNameState = inputViewModel.firstNameState.testObserver()
         val lastNameState = inputViewModel.lastNameState.testObserver()
         val zipCodeState = inputViewModel.zipCodeState.testObserver()
-        val notificationState = inputViewModel.notificationState.testObserver()
+        val notificationState = inputViewModel.getNotificationStateTest().testObserver()
 
         inputViewModel.firstNameChanged("Ingeborg")
         inputViewModel.lastNameChanged("Schnabel")
@@ -231,7 +227,7 @@ class InputViewModelTest {
         val firstNameState = inputViewModel.firstNameState.testObserver()
         val lastNameState = inputViewModel.lastNameState.testObserver()
         val zipCodeState = inputViewModel.zipCodeState.testObserver()
-        val notificationState = inputViewModel.notificationState.testObserver()
+        val notificationState = inputViewModel.getNotificationStateTest().testObserver()
 
         inputViewModel.firstNameChanged("Ingeborg")
         inputViewModel.lastNameChanged("Schnabel")
@@ -257,13 +253,14 @@ class InputViewModelTest {
     }
 
     @Test
+    @Ignore("Goging to be implemented, when the zipCode to GeoPosition API is implemented")
     fun saveClicked_personDataUnvalid_zipCode_notExisting() {
         val inputViewModel = InputViewModel(personRepository)
 
         val firstNameState = inputViewModel.firstNameState.testObserver()
         val lastNameState = inputViewModel.lastNameState.testObserver()
         val zipCodeState = inputViewModel.zipCodeState.testObserver()
-        val notificationState = inputViewModel.notificationState.testObserver()
+        val notificationState = inputViewModel.getNotificationStateTest().testObserver()
 
         inputViewModel.firstNameChanged("Ingeborg")
         inputViewModel.lastNameChanged("Schnabel")
@@ -295,7 +292,7 @@ class InputViewModelTest {
         val firstNameState = inputViewModel.firstNameState.testObserver()
         val lastNameState = inputViewModel.lastNameState.testObserver()
         val zipCodeState = inputViewModel.zipCodeState.testObserver()
-        val notificationState = inputViewModel.notificationState.testObserver()
+        val notificationState = inputViewModel.getNotificationStateTest().testObserver()
 
         inputViewModel.firstNameChanged("")
         inputViewModel.lastNameChanged("")
@@ -320,14 +317,16 @@ class InputViewModelTest {
             .isEqualTo(NotificationState.NotVisible)
     }
 
+
     @Test
+    @Ignore("Goging to be implemented, when the zipCode to GeoPosition API is implemented")
     fun saveClicked_personDataUnvalid_firstName_zipCodeNotExisting() {
         val inputViewModel = InputViewModel(personRepository)
 
         val firstNameState = inputViewModel.firstNameState.testObserver()
         val lastNameState = inputViewModel.lastNameState.testObserver()
         val zipCodeState = inputViewModel.zipCodeState.testObserver()
-        val notificationState = inputViewModel.notificationState.testObserver()
+        val notificationState = inputViewModel.getNotificationStateTest().testObserver()
 
         inputViewModel.firstNameChanged("")
         inputViewModel.lastNameChanged("Schnabel")
@@ -359,7 +358,7 @@ class InputViewModelTest {
         val firstNameState = inputViewModel.firstNameState.testObserver()
         val lastNameState = inputViewModel.lastNameState.testObserver()
         val zipCodeState = inputViewModel.zipCodeState.testObserver()
-        val notificationState = inputViewModel.notificationState.testObserver()
+        val notificationState = inputViewModel.getNotificationStateTest().testObserver()
 
         inputViewModel.firstNameChanged("Dieter")
         inputViewModel.lastNameChanged("")
@@ -391,7 +390,7 @@ class InputViewModelTest {
         val firstNameState = inputViewModel.firstNameState.testObserver()
         val lastNameState = inputViewModel.lastNameState.testObserver()
         val zipCodeState = inputViewModel.zipCodeState.testObserver()
-        val notificationState = inputViewModel.notificationState.testObserver()
+        val notificationState = inputViewModel.getNotificationStateTest().testObserver()
 
         inputViewModel.firstNameChanged("")
         inputViewModel.lastNameChanged("")
@@ -423,7 +422,7 @@ class InputViewModelTest {
         val firstNameState = inputViewModel.firstNameState.testObserver()
         val lastNameState = inputViewModel.lastNameState.testObserver()
         val zipCodeState = inputViewModel.zipCodeState.testObserver()
-        val notificationState = inputViewModel.notificationState.testObserver()
+        val notificationState = inputViewModel.getNotificationStateTest().testObserver()
 
         inputViewModel.firstNameChanged("")
         inputViewModel.lastNameChanged("Wowi")
@@ -473,7 +472,7 @@ class InputViewModelTest {
         val firstNameState = inputViewModel.firstNameState.testObserver()
         val lastNameState = inputViewModel.lastNameState.testObserver()
         val zipCodeState = inputViewModel.zipCodeState.testObserver()
-        val notificationState = inputViewModel.notificationState.testObserver()
+        val notificationState = inputViewModel.getNotificationStateTest().testObserver()
 
         inputViewModel.firstNameChanged("Wolf")
         inputViewModel.lastNameChanged("")
@@ -523,7 +522,7 @@ class InputViewModelTest {
         val firstNameState = inputViewModel.firstNameState.testObserver()
         val lastNameState = inputViewModel.lastNameState.testObserver()
         val zipCodeState = inputViewModel.zipCodeState.testObserver()
-        val notificationState = inputViewModel.notificationState.testObserver()
+        val notificationState = inputViewModel.getNotificationStateTest().testObserver()
 
         inputViewModel.firstNameChanged("Wolf")
         inputViewModel.lastNameChanged("Wolfensen")
