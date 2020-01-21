@@ -132,7 +132,7 @@ class InputViewModel(private val personRepository: PersonRepository) : ViewModel
 
     /**
      *
-     * For test purposes.
+     * For test purposes. Because SingleLiveEvent isn't properly observable
      */
     fun getNotificationStateTest() = notificationStateRelay.toLiveData()
 }
