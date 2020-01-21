@@ -4,7 +4,7 @@ import com.dominicwrieden.sampleapp.data.local.room.AppDatabase
 import com.dominicwrieden.sampleapp.data.remote.Api
 import com.dominicwrieden.sampleapp.data.repository.PersonRepository
 import com.dominicwrieden.sampleapp.data.repository.PersonRepositoryImpl
-import com.dominicwrieden.sampleapp.data.repository.PostRepository
+import com.dominicwrieden.sampleapp.data.repository.PostRepositoryImpl
 import com.dominicwrieden.sampleapp.data.repository.SettingRepository
 import com.dominicwrieden.sampleapp.util.SharedPreferenceUtil
 import com.squareup.moshi.Moshi
@@ -21,7 +21,7 @@ object Dependencies {
     private val sharedPreferenceUtil by lazy { SharedPreferenceUtil(App.instance) }
     private val personRepository: PersonRepository
             by lazy { PersonRepositoryImpl.getInstance(roomDb.getPeronDao()) }
-    private val postRepository by lazy { PostRepository.getInstance(roomDb.getPostDao(), api) }
+    private val postRepository by lazy { PostRepositoryImpl.getInstance(roomDb.getPostDao(), api) }
     private val settingRepository by lazy { SettingRepository.getInstance(sharedPreferenceUtil) }
 
 
@@ -30,7 +30,7 @@ object Dependencies {
             Moshi::class.java -> moshi
             AppDatabase::class.java -> roomDb
             PersonRepository::class.java -> personRepository
-            PostRepository::class.java -> postRepository
+            PostRepositoryImpl::class.java -> postRepository
             SharedPreferenceUtil::class.java -> settingRepository
             else -> throw IllegalStateException("Can't find dependency for ${clazz.name}")
         } as T

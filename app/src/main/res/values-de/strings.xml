@@ -29,6 +29,10 @@
     <string name="output_list_header">Lokale Stammdaten</string>
     <string name="output_list_empty_label">Leer \n :\'(</string>
 
+    <!-- Web service screen -->
+    <string name="web_service_empty_test">Leer \n :\'(</string>
+    <string name="web_service_loading_error_snackbar_no_internet">Ladefehler: Bitte Verbindung überprüfen</string>
+    <string name="web_service_loading_error_snackbar_other">Ladefehler</string>
 
     <!--Setting screen -->
     <string name="setting_auto_update_headline">Aktualisierungs-Einstellungen</string>

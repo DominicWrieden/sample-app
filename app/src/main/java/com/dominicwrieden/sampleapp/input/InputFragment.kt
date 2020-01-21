@@ -124,6 +124,6 @@ class InputFragment : Fragment() {
     }
 
     private fun showSnackbar(message: String) {
-        Snackbar.make(fragment_input, message, Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(fragmentInput, message, Snackbar.LENGTH_SHORT).show()
     }
 }

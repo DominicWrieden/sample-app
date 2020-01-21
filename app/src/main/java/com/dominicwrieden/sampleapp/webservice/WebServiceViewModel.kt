@@ -3,11 +3,15 @@ package com.dominicwrieden.sampleapp.webservice
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.dominicwrieden.sampleapp.data.repository.PostRepository
 
-class WebServiceViewModel : ViewModel() {
+class WebServiceViewModel(private val postRepository: PostRepository) : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is notifications Fragment"
+    val postListeState: LiveData<PostListState> = MutableLiveData()
+    val loadingState: LiveData<LoadingState> = MutableLiveData()
+    val updateErrorState: LiveData<UpdateErrorState> = MutableLiveData()
+
+    fun refreshTriggered() {
+
     }
-    val text: LiveData<String> = _text
 }

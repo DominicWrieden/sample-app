@@ -5,6 +5,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent">
 
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/emptyListText"
+        style="@style/TextAppearance.AppCompat.Display2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/output_list_empty_label"
+        android:textAlignment="center"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/personList"
         android:layout_width="match_parent"
@@ -15,20 +28,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"
+        android:visibility="visible"
         tools:listitem="@layout/item_output_person"
         tools:visibility="visible" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/emptyListText"
-        style="@style/TextAppearance.AppCompat.Display2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/output_list_empty_label"
-        android:textAlignment="center"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

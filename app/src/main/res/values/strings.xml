@@ -28,6 +28,12 @@
     <string name="output_list_header">Local person data</string>
     <string name="output_list_empty_label">Empty \n :\'(</string>
 
+
+    <!-- Web service screen -->
+    <string name="web_service_empty_test">Empty \n :\'(</string>
+    <string name="web_service_loading_error_snackbar_no_internet">Loading error: Check connection.</string>
+    <string name="web_service_loading_error_snackbar_other">Loading error.</string>
+
     <!--Setting screen -->
     <string name="setting_auto_update_headline">Update settings</string>
     <string name="setting_auto_update_activation_label">Auto update</string>

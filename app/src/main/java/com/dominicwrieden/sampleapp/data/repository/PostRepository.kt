@@ -1,25 +1,13 @@
 package com.dominicwrieden.sampleapp.data.repository
 
-import com.dominicwrieden.sampleapp.data.local.room.PostDao
-import com.dominicwrieden.sampleapp.data.remote.Api
+import com.dominicwrieden.sampleapp.data.entity.Post
+import io.reactivex.Observable
+import okhttp3.Response
 
-class PostRepository private constructor(
-    private val postDao: PostDao,
-    private val api: Api
-) {
+interface PostRepository {
 
-    companion object {
-        // For Singleton instantiation
-        private var sInstance: PostRepository? = null
+    fun getPosts(): Observable<List<Post>>
 
-        fun getInstance(postDao: PostDao, api: Api) =
-            sInstance ?: synchronized(this) {
-                sInstance
-                    ?: PostRepository(
-                        postDao = postDao,
-                        api = api
-                    ).also { sInstance = it }
-            }
-    }
+    fun refreshPosts(): Observable<Response>
 
 }

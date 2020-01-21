@@ -22,6 +22,7 @@ ext {
     groupie_version = '2.7.2'
     glide_version = '4.11.0'
     lottieVersion = '3.3.1'
+    swipe_refresh_layout_version = '1.0.0'
 
     //rx
     rxjava2_rxjava_version = '2.2.17'
