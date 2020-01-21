@@ -16,10 +16,10 @@ import okhttp3.Response
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.BDDMockito.given
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import java.net.UnknownHostException
+import javax.net.ssl.SSLHandshakeException
 
 class WebServiceViewModelTest {
     @get:Rule
@@ -293,12 +293,12 @@ class WebServiceViewModelTest {
             .isEmpty()
     }
 
-    @Test(expected = UnknownHostException::class)
+    @Test
     fun initial_loading_error_no_internet_connection() {
         whenever(postRepository.getPosts()).doReturn(Observable.just(emptyList()))
-        given(postRepository.refreshPosts()).willAnswer {
-            throw UnknownHostException()
-        }
+        whenever(postRepository.refreshPosts())
+            .doReturn(Single.error(UnknownHostException()))
+
         val webServiceViewModel = WebServiceViewModel(postRepository)
 
         val postListeState = webServiceViewModel.postListeState.testObserver()
@@ -315,16 +315,15 @@ class WebServiceViewModelTest {
 
 
         Truth.assert_()
-            .that(errorState.observedValues)
+            .that(errorState.observedValues.last())
             .isEqualTo(UpdateErrorState.NoInternetUpdateError)
     }
 
-    @Test(expected = Exception::class)
+    @Test
     fun initial_loading_error_other() {
         whenever(postRepository.getPosts()).doReturn(Observable.just(emptyList()))
-        given(postRepository.refreshPosts()).willAnswer {
-            throw Exception()
-        }
+        whenever(postRepository.refreshPosts()).doReturn(Single.error(Exception()))
+
         val webServiceViewModel = WebServiceViewModel(postRepository)
 
         val postListeState = webServiceViewModel.postListeState.testObserver()
@@ -341,11 +340,11 @@ class WebServiceViewModelTest {
 
 
         Truth.assert_()
-            .that(errorState.observedValues)
+            .that(errorState.observedValues.last())
             .isEqualTo(UpdateErrorState.OtherUpdateError)
     }
 
-    @Test(expected = UnknownHostException::class)
+    @Test
     fun element_3_loading_error_no_connection() {
         val posts = listOf(
             Post(1, 1, "Title1", "Body1"),
@@ -354,9 +353,9 @@ class WebServiceViewModelTest {
         )
 
         whenever(postRepository.getPosts()).doReturn(Observable.just(posts))
-        given(postRepository.refreshPosts()).willAnswer {
-            throw UnknownHostException()
-        }
+        whenever(postRepository.refreshPosts())
+            .doReturn(Single.error(UnknownHostException()))
+
         val webServiceViewModel = WebServiceViewModel(postRepository)
 
         val postListeState = webServiceViewModel.postListeState.testObserver()
@@ -373,11 +372,11 @@ class WebServiceViewModelTest {
 
 
         Truth.assert_()
-            .that(errorState.observedValues)
+            .that(errorState.observedValues.last())
             .isEqualTo(UpdateErrorState.NoInternetUpdateError)
     }
 
-    @Test(expected = Exception::class)
+    @Test
     fun element_3_loading_error_other() {
         val posts = listOf(
             Post(1, 1, "Title1", "Body1"),
@@ -386,9 +385,8 @@ class WebServiceViewModelTest {
         )
 
         whenever(postRepository.getPosts()).doReturn(Observable.just(posts))
-        given(postRepository.refreshPosts()).willAnswer {
-            throw Exception()
-        }
+        whenever(postRepository.refreshPosts()).doReturn(Single.error(Exception()))
+
         val webServiceViewModel = WebServiceViewModel(postRepository)
 
         val postListeState = webServiceViewModel.postListeState.testObserver()
@@ -405,7 +403,43 @@ class WebServiceViewModelTest {
 
 
         Truth.assert_()
-            .that(errorState.observedValues)
-            .isEqualTo(UpdateErrorState.NoInternetUpdateError)
+            .that(errorState.observedValues.last())
+            .isEqualTo(UpdateErrorState.OtherUpdateError)
     }
+
+    /**
+     * For old Android-Versions < 4.4
+     */
+    @Test
+    fun error_ssl_handshake_exception() {
+        val posts = listOf(
+            Post(1, 1, "Title1", "Body1"),
+            Post(2, 1, "Title2", "Body2"),
+            Post(3, 2, "Title3", "Body3")
+        )
+
+        whenever(postRepository.getPosts()).doReturn(Observable.just(posts))
+        whenever(postRepository.refreshPosts())
+            .doReturn(Single.error(SSLHandshakeException("SSLv3 protocol are being used")))
+
+        val webServiceViewModel = WebServiceViewModel(postRepository)
+
+        val postListeState = webServiceViewModel.postListeState.testObserver()
+        val loadingState = webServiceViewModel.getLoadingStateTest().testObserver()
+        val errorState = webServiceViewModel.updateErrorState.testObserver()
+
+        Truth.assert_()
+            .that(postListeState.observedValues.last())
+            .isEqualTo(PostListState.PostList(posts))
+
+        Truth.assert_()
+            .that(loadingState.observedValues.last())
+            .isEqualTo(LoadingState.NotLoading)
+
+
+        Truth.assert_()
+            .that(errorState.observedValues.last())
+            .isEqualTo(UpdateErrorState.SSLv3UpdateError)
+    }
+
 }
