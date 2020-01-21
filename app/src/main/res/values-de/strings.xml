@@ -7,6 +7,7 @@
     <string name="title_settings">Einstellungen</string>
 
     <!-- Input screen -->
+    <string name="input_header">Stammdaten</string>
     <string name="input_text_hint_first_name">Vorname</string>
     <string name="input_text_hint_last_name">Nachname</string>
     <string name="input_text_hint_zip_code">Postleitzahl</string>
@@ -25,6 +26,7 @@
     <string name="output_item_person_label_frist_name">Vorname:</string>
     <string name="output_item_person_label_last_name">Nachname:</string>
     <string name="output_item_person_label_zip_code">Postleitzahl:</string>
+    <string name="output_list_header">Lokale Stammdaten</string>
     <string name="output_list_empty_label">Leer \n :\'(</string>
 
 

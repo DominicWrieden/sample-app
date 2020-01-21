@@ -28,7 +28,5 @@ class PersonRepositoryImpl private constructor(private val personDao: PersonDao)
             }
     }
 
-    override fun getPersonList(): Observable<List<Person>> {
-        return Observable.just(emptyList())
-    }
+    override fun getPersonList(): Observable<List<Person>> = personDao.getAllPersons()
 }

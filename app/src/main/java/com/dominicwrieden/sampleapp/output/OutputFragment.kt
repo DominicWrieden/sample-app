@@ -50,6 +50,8 @@ class OutputFragment : Fragment() {
         personList.adapter = peronListAdapter
         peronListAdapter.add(personListSection)
 
+        personListSection.setHeader(HeaderItem())
+
         // TODO: If time, implement DataBinding
 
         viewModel.personListState.observeWith(this) { personListState ->
@@ -65,6 +67,7 @@ class OutputFragment : Fragment() {
      * Updates the existing list of persons with the given ones
      */
     private fun showPersonList(personListState: PersonListState.PersonList) {
+        emptyListText.visibility = View.GONE
         personList.visibility = View.VISIBLE
         personListSection.update(personListState.personList.map { PersonItem(it) })
     }
@@ -72,5 +75,6 @@ class OutputFragment : Fragment() {
     private fun showEmptyState() {
         personListSection.clear()
         personList.visibility = View.GONE
+        emptyListText.visibility = View.VISIBLE
     }
 }
