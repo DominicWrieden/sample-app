@@ -9,6 +9,7 @@ sealed class LoadingState {
 
 sealed class UpdateErrorState {
     object NoInternetUpdateError : UpdateErrorState()
+    object SSLv3UpdateError : UpdateErrorState()
     object OtherUpdateError : UpdateErrorState()
 }
 
