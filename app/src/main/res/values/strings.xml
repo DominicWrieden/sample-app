@@ -32,6 +32,7 @@
     <!-- Web service screen -->
     <string name="web_service_empty_test">Empty \n :\'(</string>
     <string name="web_service_loading_error_snackbar_no_internet">Loading error: Check connection.</string>
+    <string name="web_service_loading_error_snackbar_sslv3">Loading error: Please install GooglePlayServices!</string>
     <string name="web_service_loading_error_snackbar_other">Loading error.</string>
 
     <!--Setting screen -->

@@ -48,6 +48,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
     implementation "androidx.core:core-ktx:$androidx_core_ktx_version"
     implementation "com.android.support:multidex:$multidex_version"
+    implementation "com.google.android.gms:play-services-auth:$google_play_services_version"
 
     //architecture components
     implementation "androidx.lifecycle:lifecycle-extensions:$androidx_lifecycle_version"

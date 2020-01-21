@@ -10,6 +10,7 @@ ext {
     androidx_core_ktx_version = '1.1.0'
     google_material_version = '1.2.0-alpha03'
     multidex_version = '1.0.3'
+    google_play_services_version = '17.0.0'
 
 
     //architecture components

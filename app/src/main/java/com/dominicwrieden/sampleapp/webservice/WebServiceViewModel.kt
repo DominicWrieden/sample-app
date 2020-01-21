@@ -11,6 +11,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import okhttp3.Response
 import java.net.UnknownHostException
+import javax.net.ssl.SSLHandshakeException
 
 class WebServiceViewModel(private val postRepository: PostRepository) : ViewModel() {
 
@@ -64,6 +65,8 @@ class WebServiceViewModel(private val postRepository: PostRepository) : ViewMode
                     loadingStateRelay.accept(LoadingState.NotLoading)
                     if (error is UnknownHostException) {
                         updateErrorStateRelay.accept(UpdateErrorState.NoInternetUpdateError)
+                    } else if (error is SSLHandshakeException) {
+                        updateErrorStateRelay.accept(UpdateErrorState.SSLv3UpdateError)
                     } else {
                         updateErrorStateRelay.accept(UpdateErrorState.OtherUpdateError)
                     }

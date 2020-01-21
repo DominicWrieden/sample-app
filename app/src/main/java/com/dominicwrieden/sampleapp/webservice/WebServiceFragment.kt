@@ -98,12 +98,14 @@ class WebServiceFragment : Fragment() {
                 showSnackbar(getString(R.string.web_service_loading_error_snackbar_no_internet))
             UpdateErrorState.OtherUpdateError ->
                 showSnackbar(getString(R.string.web_service_loading_error_snackbar_other))
+            UpdateErrorState.SSLv3UpdateError ->
+                showSnackbar(getString(R.string.web_service_loading_error_snackbar_sslv3))
         }
     }
 
     private fun showSnackbar(message: String) {
         activity?.let {
-            Snackbar.make(it.findViewById(R.id.snackiContainer), message, Snackbar.LENGTH_SHORT)
+            Snackbar.make(it.findViewById(R.id.snackiContainer), message, Snackbar.LENGTH_LONG)
                 .show()
         }
     }
