@@ -55,41 +55,41 @@ class InputFragment : Fragment() {
         viewModel.notificationState.observeWith(this) { showNotificationState(it) }
 
 
-        firstName.editText
-            ?.textChanges()
-            ?.subscribe { viewModel.firstNameChanged(it.toString()) }
-            ?.addTo(disposable)
+        lastNameEditText
+            .textChanges()
+            .subscribe { viewModel.firstNameChanged(it.toString()) }
+            .addTo(disposable)
 
-        lastName.editText
-            ?.textChanges()
-            ?.subscribe { viewModel.lastNameChanged(it.toString()) }
-            ?.addTo(disposable)
+        lastNameEditText
+            .textChanges()
+            .subscribe { viewModel.lastNameChanged(it.toString()) }
+            .addTo(disposable)
 
-        zipCode.editText
-            ?.textChanges()
-            ?.subscribe { viewModel.zipCodeChanged(it.toString()) }
-            ?.addTo(disposable)
+        zipCodeEditText
+            .textChanges()
+            .subscribe { viewModel.zipCodeChanged(it.toString()) }
+            .addTo(disposable)
 
         save.clicks().subscribe { viewModel.saveButtonClicked() }.addTo(disposable)
     }
 
     private fun showFirstNameState(firstNameState: FirstNameState) {
         when (firstNameState) {
-            FirstNameState.Idle -> firstName.error = null
+            FirstNameState.Idle -> firstNameInputLayout.error = null
             FirstNameState.ClearInput ->
-                firstName.editText?.text = Editable.Factory.getInstance().newEditable("")
+                firstNameEditText.text = Editable.Factory.getInstance().newEditable("")
             FirstNameState.Missing ->
-                firstName.error = getString(R.string.input_text_error_first_name)
+                firstNameInputLayout.error = getString(R.string.input_text_error_first_name)
         }
     }
 
     private fun showLastNameState(lastNameState: LastNameState) {
         when (lastNameState) {
-            LastNameState.Idle -> lastName.error = null
+            LastNameState.Idle -> lastNameInputLayout.error = null
             LastNameState.ClearInput ->
-                lastName.editText?.text = Editable.Factory.getInstance().newEditable("")
+                lastNameEditText.text = Editable.Factory.getInstance().newEditable("")
             LastNameState.Missing ->
-                lastName.error = getString(R.string.input_text_error_last_name)
+                lastNameInputLayout.error = getString(R.string.input_text_error_last_name)
         }
     }
 
@@ -97,7 +97,7 @@ class InputFragment : Fragment() {
         when (zipCodeState) {
             ZipCodeState.Idle -> zipCode.error = null
             ZipCodeState.ClearInput ->
-                zipCode.editText?.text = Editable.Factory.getInstance().newEditable("")
+                zipCodeEditText.text = Editable.Factory.getInstance().newEditable("")
             is ZipCodeState.Error -> showZipCodeError(zipCodeState.zipCodeErrors)
         }
     }

@@ -16,24 +16,25 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:text="@string/input_header"
-            app:layout_constraintBottom_toTopOf="@id/firstName"
+            app:layout_constraintBottom_toTopOf="@id/firstNameInputLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/firstName"
+            android:id="@+id/firstNameInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:hint="@string/input_text_hint_first_name"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:layout_constraintBottom_toTopOf="@id/lastName"
+            app:layout_constraintBottom_toTopOf="@id/lastNameInputLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/header">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/firstNameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
@@ -41,7 +42,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/lastName"
+            android:id="@+id/lastNameInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
@@ -50,9 +51,10 @@
             app:layout_constraintBottom_toTopOf="@id/zipCode"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/firstName">
+            app:layout_constraintTop_toBottomOf="@id/firstNameInputLayout">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/lastNameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
@@ -69,9 +71,10 @@
             app:layout_constraintBottom_toTopOf="@id/zipCode"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lastName">
+            app:layout_constraintTop_toBottomOf="@id/lastNameInputLayout">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/zipCodeEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
