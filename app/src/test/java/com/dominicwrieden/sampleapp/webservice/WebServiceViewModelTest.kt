@@ -9,6 +9,7 @@ import com.google.common.truth.Truth
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.Observable
+import io.reactivex.Single
 import okhttp3.Protocol
 import okhttp3.Request
 import okhttp3.Response
@@ -18,7 +19,7 @@ import org.junit.Test
 import org.mockito.BDDMockito.given
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
-import java.net.NoRouteToHostException
+import java.net.UnknownHostException
 
 class WebServiceViewModelTest {
     @get:Rule
@@ -39,11 +40,17 @@ class WebServiceViewModelTest {
 
 
     @Test
-    fun initial_loading() {
-        val webServiceViewModel = WebServiceViewModel(postRepository)
+    fun initial() {
+        val reponse = Response.Builder()
+            .request(Request.Builder().url("https://127.0.0.1").build())
+            .protocol(Protocol.HTTP_2).code(200).message("asda").build()
 
+        whenever(postRepository.getPosts()).doReturn(Observable.just(emptyList()))
+        whenever(postRepository.refreshPosts()).doReturn(Single.just(reponse))
+
+        val webServiceViewModel = WebServiceViewModel(postRepository)
         val postListeState = webServiceViewModel.postListeState.testObserver()
-        val loadingState = webServiceViewModel.loadingState.testObserver()
+        val loadingState = webServiceViewModel.getLoadingStateTest().testObserver()
         val errorState = webServiceViewModel.updateErrorState.testObserver()
 
         Truth.assert_()
@@ -51,9 +58,12 @@ class WebServiceViewModelTest {
             .isEqualTo(PostListState.EmptyList)
 
         Truth.assert_()
-            .that(loadingState.observedValues.last())
-            .isEqualTo(LoadingState.Loading)
+            .that(loadingState.observedValues.count { it is LoadingState.Loading })
+            .isEqualTo(1)
 
+        Truth.assert_()
+            .that(loadingState.observedValues.count { it is LoadingState.NotLoading })
+            .isEqualTo(1)
 
         Truth.assert_()
             .that(errorState.observedValues)
@@ -68,12 +78,12 @@ class WebServiceViewModelTest {
             .protocol(Protocol.HTTP_2).code(200).message("asda").build()
 
         whenever(postRepository.getPosts()).doReturn(Observable.just(emptyList()))
-        whenever(postRepository.refreshPosts()).doReturn(Observable.just(reponse))
+        whenever(postRepository.refreshPosts()).doReturn(Single.just(reponse))
 
         val webServiceViewModel = WebServiceViewModel(postRepository)
 
         val postListeState = webServiceViewModel.postListeState.testObserver()
-        val loadingState = webServiceViewModel.loadingState.testObserver()
+        val loadingState = webServiceViewModel.getLoadingStateTest().testObserver()
         val errorState = webServiceViewModel.updateErrorState.testObserver()
 
         Truth.assert_()
@@ -98,12 +108,12 @@ class WebServiceViewModelTest {
             .protocol(Protocol.HTTP_2).code(200).message("asda").build()
 
         whenever(postRepository.getPosts()).doReturn(Observable.just(posts))
-        whenever(postRepository.refreshPosts()).doReturn(Observable.just(reponse))
+        whenever(postRepository.refreshPosts()).doReturn(Single.just(reponse))
 
         val webServiceViewModel = WebServiceViewModel(postRepository)
 
         val postListeState = webServiceViewModel.postListeState.testObserver()
-        val loadingState = webServiceViewModel.loadingState.testObserver()
+        val loadingState = webServiceViewModel.getLoadingStateTest().testObserver()
         val errorState = webServiceViewModel.updateErrorState.testObserver()
 
         Truth.assert_()
@@ -132,12 +142,12 @@ class WebServiceViewModelTest {
             .protocol(Protocol.HTTP_2).code(200).message("asda").build()
 
         whenever(postRepository.getPosts()).doReturn(Observable.just(posts))
-        whenever(postRepository.refreshPosts()).doReturn(Observable.just(reponse))
+        whenever(postRepository.refreshPosts()).doReturn(Single.just(reponse))
 
         val webServiceViewModel = WebServiceViewModel(postRepository)
 
         val postListeState = webServiceViewModel.postListeState.testObserver()
-        val loadingState = webServiceViewModel.loadingState.testObserver()
+        val loadingState = webServiceViewModel.getLoadingStateTest().testObserver()
         val errorState = webServiceViewModel.updateErrorState.testObserver()
 
         Truth.assert_()
@@ -156,19 +166,24 @@ class WebServiceViewModelTest {
 
 
     @Test
-    fun element_3_loading() {
+    fun element_3_load_new() {
         val posts = listOf(
             Post(1, 1, "Title1", "Body1"),
             Post(2, 1, "Title2", "Body2"),
             Post(3, 2, "Title3", "Body3")
         )
+        val reponse = Response.Builder()
+            .request(Request.Builder().url("https://127.0.0.1").build())
+            .protocol(Protocol.HTTP_2).code(200).message("asda").build()
 
         whenever(postRepository.getPosts()).doReturn(Observable.just(posts))
+
+        whenever(postRepository.refreshPosts()).doReturn(Single.just(reponse))
 
         val webServiceViewModel = WebServiceViewModel(postRepository)
 
         val postListeState = webServiceViewModel.postListeState.testObserver()
-        val loadingState = webServiceViewModel.loadingState.testObserver()
+        val loadingState = webServiceViewModel.getLoadingStateTest().testObserver()
         val errorState = webServiceViewModel.updateErrorState.testObserver()
 
         webServiceViewModel.refreshTriggered()
@@ -178,8 +193,8 @@ class WebServiceViewModelTest {
             .isEqualTo(PostListState.PostList(posts))
 
         Truth.assert_()
-            .that(loadingState.observedValues.last())
-            .isEqualTo(LoadingState.Loading)
+            .that(loadingState.observedValues.count { it is LoadingState.Loading })
+            .isEqualTo(2)
 
 
         Truth.assert_()
@@ -196,12 +211,12 @@ class WebServiceViewModelTest {
             .protocol(Protocol.HTTP_2).code(200).message("asda").build()
 
         whenever(postRepository.getPosts()).doReturn(Observable.just(posts))
-        whenever(postRepository.refreshPosts()).doReturn(Observable.just(reponse))
+        whenever(postRepository.refreshPosts()).doReturn(Single.just(reponse))
 
         val webServiceViewModel = WebServiceViewModel(postRepository)
 
         val postListeState = webServiceViewModel.postListeState.testObserver()
-        val loadingState = webServiceViewModel.loadingState.testObserver()
+        val loadingState = webServiceViewModel.getLoadingStateTest().testObserver()
         val errorState = webServiceViewModel.updateErrorState.testObserver()
 
         Truth.assert_()
@@ -226,12 +241,12 @@ class WebServiceViewModelTest {
             .protocol(Protocol.HTTP_2).code(200).message("asda").build()
 
         whenever(postRepository.getPosts()).doReturn(Observable.just(posts))
-        whenever(postRepository.refreshPosts()).doReturn(Observable.just(reponse))
+        whenever(postRepository.refreshPosts()).doReturn(Single.just(reponse))
 
         val webServiceViewModel = WebServiceViewModel(postRepository)
 
         val postListeState = webServiceViewModel.postListeState.testObserver()
-        val loadingState = webServiceViewModel.loadingState.testObserver()
+        val loadingState = webServiceViewModel.getLoadingStateTest().testObserver()
         val errorState = webServiceViewModel.updateErrorState.testObserver()
 
         Truth.assert_()
@@ -256,12 +271,12 @@ class WebServiceViewModelTest {
             .protocol(Protocol.HTTP_2).code(200).message("asda").build()
 
         whenever(postRepository.getPosts()).doReturn(Observable.just(posts))
-        whenever(postRepository.refreshPosts()).doReturn(Observable.just(reponse))
+        whenever(postRepository.refreshPosts()).doReturn(Single.just(reponse))
 
         val webServiceViewModel = WebServiceViewModel(postRepository)
 
         val postListeState = webServiceViewModel.postListeState.testObserver()
-        val loadingState = webServiceViewModel.loadingState.testObserver()
+        val loadingState = webServiceViewModel.getLoadingStateTest().testObserver()
         val errorState = webServiceViewModel.updateErrorState.testObserver()
 
         Truth.assert_()
@@ -278,16 +293,16 @@ class WebServiceViewModelTest {
             .isEmpty()
     }
 
-    @Test
+    @Test(expected = UnknownHostException::class)
     fun initial_loading_error_no_internet_connection() {
         whenever(postRepository.getPosts()).doReturn(Observable.just(emptyList()))
         given(postRepository.refreshPosts()).willAnswer {
-            throw NoRouteToHostException()
+            throw UnknownHostException()
         }
         val webServiceViewModel = WebServiceViewModel(postRepository)
 
         val postListeState = webServiceViewModel.postListeState.testObserver()
-        val loadingState = webServiceViewModel.loadingState.testObserver()
+        val loadingState = webServiceViewModel.getLoadingStateTest().testObserver()
         val errorState = webServiceViewModel.updateErrorState.testObserver()
 
         Truth.assert_()
@@ -304,7 +319,7 @@ class WebServiceViewModelTest {
             .isEqualTo(UpdateErrorState.NoInternetUpdateError)
     }
 
-    @Test
+    @Test(expected = Exception::class)
     fun initial_loading_error_other() {
         whenever(postRepository.getPosts()).doReturn(Observable.just(emptyList()))
         given(postRepository.refreshPosts()).willAnswer {
@@ -313,7 +328,7 @@ class WebServiceViewModelTest {
         val webServiceViewModel = WebServiceViewModel(postRepository)
 
         val postListeState = webServiceViewModel.postListeState.testObserver()
-        val loadingState = webServiceViewModel.loadingState.testObserver()
+        val loadingState = webServiceViewModel.getLoadingStateTest().testObserver()
         val errorState = webServiceViewModel.updateErrorState.testObserver()
 
         Truth.assert_()
@@ -330,7 +345,7 @@ class WebServiceViewModelTest {
             .isEqualTo(UpdateErrorState.OtherUpdateError)
     }
 
-    @Test
+    @Test(expected = UnknownHostException::class)
     fun element_3_loading_error_no_connection() {
         val posts = listOf(
             Post(1, 1, "Title1", "Body1"),
@@ -340,12 +355,12 @@ class WebServiceViewModelTest {
 
         whenever(postRepository.getPosts()).doReturn(Observable.just(posts))
         given(postRepository.refreshPosts()).willAnswer {
-            throw NoRouteToHostException()
+            throw UnknownHostException()
         }
         val webServiceViewModel = WebServiceViewModel(postRepository)
 
         val postListeState = webServiceViewModel.postListeState.testObserver()
-        val loadingState = webServiceViewModel.loadingState.testObserver()
+        val loadingState = webServiceViewModel.getLoadingStateTest().testObserver()
         val errorState = webServiceViewModel.updateErrorState.testObserver()
 
         Truth.assert_()
@@ -362,7 +377,7 @@ class WebServiceViewModelTest {
             .isEqualTo(UpdateErrorState.NoInternetUpdateError)
     }
 
-    @Test
+    @Test(expected = Exception::class)
     fun element_3_loading_error_other() {
         val posts = listOf(
             Post(1, 1, "Title1", "Body1"),
@@ -377,7 +392,7 @@ class WebServiceViewModelTest {
         val webServiceViewModel = WebServiceViewModel(postRepository)
 
         val postListeState = webServiceViewModel.postListeState.testObserver()
-        val loadingState = webServiceViewModel.loadingState.testObserver()
+        val loadingState = webServiceViewModel.getLoadingStateTest().testObserver()
         val errorState = webServiceViewModel.updateErrorState.testObserver()
 
         Truth.assert_()

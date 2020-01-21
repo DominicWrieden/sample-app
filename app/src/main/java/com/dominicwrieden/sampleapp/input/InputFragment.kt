@@ -21,6 +21,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.fragment_input.*
 
+
 class InputFragment : Fragment() {
 
     private val personRepository: PersonRepository by Dependencies
@@ -124,6 +125,9 @@ class InputFragment : Fragment() {
     }
 
     private fun showSnackbar(message: String) {
-        Snackbar.make(fragmentInput, message, Snackbar.LENGTH_SHORT).show()
+        activity?.let {
+            Snackbar.make(it.findViewById(R.id.snackiContainer), message, Snackbar.LENGTH_SHORT)
+                .show()
+        }
     }
 }

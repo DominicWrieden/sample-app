@@ -17,4 +17,8 @@ class PostItem(val post: Post) : Item() {
 
     override fun isSameAs(other: com.xwray.groupie.Item<*>) = other is PostItem &&
             post.id == other.post.id
+
+    override fun hasSameContentAs(other: com.xwray.groupie.Item<*>) = other is PostItem
+            && post.title == other.post.title
+            && post.body == other.post.body
 }

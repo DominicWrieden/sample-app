@@ -2,7 +2,8 @@ package com.dominicwrieden.sampleapp.data.repository
 
 import com.dominicwrieden.sampleapp.data.local.room.PostDao
 import com.dominicwrieden.sampleapp.data.remote.Api
-import io.reactivex.Observable
+import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 import okhttp3.Response
 
 class PostRepositoryImpl private constructor(
@@ -25,7 +26,16 @@ class PostRepositoryImpl private constructor(
     }
 
     override fun getPosts() = postDao.getAllPosts()
-    override fun refreshPosts(): Observable<Response> {
-        return Observable.just(Response.Builder().build())
+
+
+    override fun refreshPosts(): Single<Response> {
+        return api.postWebService.getPosts()
+            .subscribeOn(Schedulers.io())
+            .doOnSuccess { successfulResponse ->
+                postDao.insertPosts(successfulResponse.body() ?: emptyList())
+            }
+            .map { respose ->
+                respose.raw()
+            }
     }
 }
