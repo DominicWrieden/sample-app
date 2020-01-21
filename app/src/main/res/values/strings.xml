@@ -25,7 +25,7 @@
     <string name="output_item_person_label_frist_name">First name:</string>
     <string name="output_item_person_label_last_name">Last name:</string>
     <string name="output_item_person_label_zip_code">Zip code:</string>
-    <string name="output_list_header">Local person data</string>
+    <string name="output_list_header">Person data</string>
     <string name="output_list_empty_label">Empty \n :\'(</string>
 
 
