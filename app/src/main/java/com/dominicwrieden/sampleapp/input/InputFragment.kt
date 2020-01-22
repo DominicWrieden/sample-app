@@ -60,7 +60,7 @@ class InputFragment : Fragment() {
             .subscribe { viewModel.firstNameChanged(it.toString()) }
             .addTo(disposable)
 
-        lastNameEditText
+        firstNameEditText
             .textChanges()
             .subscribe { viewModel.lastNameChanged(it.toString()) }
             .addTo(disposable)
