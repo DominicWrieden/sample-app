@@ -73,6 +73,11 @@ class WebServiceViewModel(private val postRepository: PostRepository) : ViewMode
                 }).addTo(disposable)
     }
 
+    override fun onCleared() {
+        disposable.dispose()
+        super.onCleared()
+    }
+
     /**
      *
      * For test purposes. Because SingleLiveEvent isn't properly observable
