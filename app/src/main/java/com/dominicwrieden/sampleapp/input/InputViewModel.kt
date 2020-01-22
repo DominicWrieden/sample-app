@@ -38,7 +38,6 @@ class InputViewModel(private val personRepository: PersonRepository) : ViewModel
 
     init {
         firstNameChangedSubject.distinctUntilChanged()
-            .skip(1)
             .map { inputFirstName ->
                 if (inputFirstName.isEmpty()) {
 
@@ -49,7 +48,6 @@ class InputViewModel(private val personRepository: PersonRepository) : ViewModel
             }.subscribe(firstNameStateRelay).addTo(disposable)
 
         lastNameChangedSubject.distinctUntilChanged()
-            .skip(1)
             .map { inputLastName ->
                 if (inputLastName.isEmpty()) {
                     LastNameState.ClearInput
@@ -60,7 +58,6 @@ class InputViewModel(private val personRepository: PersonRepository) : ViewModel
 
 
         zipCodeChangedSubject.distinctUntilChanged()
-            .skip(1)
             .map { inputZipCode ->
                 if (inputZipCode.isEmpty()) {
                     ZipCodeState.ClearInput

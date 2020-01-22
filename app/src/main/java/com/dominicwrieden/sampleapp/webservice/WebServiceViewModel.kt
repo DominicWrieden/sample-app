@@ -20,7 +20,6 @@ class WebServiceViewModel(private val postRepository: PostRepository) : ViewMode
 
     private val loadingStateRelay = BehaviorRelay.createDefault<LoadingState>(LoadingState.Loading)
     private val updateErrorStateRelay = BehaviorRelay.create<UpdateErrorState>()
-
     private val loadingReplayRelay = ReplayRelay.create<LoadingState>()
 
 

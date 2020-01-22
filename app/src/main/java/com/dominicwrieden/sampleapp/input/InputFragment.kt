@@ -63,6 +63,7 @@ class InputFragment : Fragment() {
 
         firstNameEditText
             .textChanges()
+            .skipInitialValue()
             .subscribe {
                 viewModel.firstNameChanged(it.toString())
             }
@@ -70,6 +71,7 @@ class InputFragment : Fragment() {
 
         lastNameEditText
             .textChanges()
+            .skipInitialValue()
             .subscribe {
                 viewModel.lastNameChanged(it.toString())
             }
@@ -77,6 +79,7 @@ class InputFragment : Fragment() {
 
         zipCodeEditText
             .textChanges()
+            .skipInitialValue()
             .subscribe {
                 viewModel.zipCodeChanged(it.toString())
             }

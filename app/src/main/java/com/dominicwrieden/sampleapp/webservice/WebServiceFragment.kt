@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -71,6 +72,15 @@ class WebServiceFragment : Fragment() {
             }
         }
 
+        postListAdapter.setOnItemClickListener { item, _ ->
+            if (item is PostItem)
+                Toast.makeText(
+                    activity, "Show details screen not implemented yet :(",
+                    Toast.LENGTH_SHORT
+                ).show()
+        }
+
+
         refresh.setOnRefreshListener {
             viewModel.refreshTriggered()
         }
@@ -111,6 +121,4 @@ class WebServiceFragment : Fragment() {
                 .show()
         }
     }
-
-
 }
