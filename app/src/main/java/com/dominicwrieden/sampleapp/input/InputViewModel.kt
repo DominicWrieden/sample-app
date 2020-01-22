@@ -29,7 +29,6 @@ class InputViewModel(private val personRepository: PersonRepository) : ViewModel
     private val firstNameChangedSubject = BehaviorSubject.createDefault("")
     private val lastNameChangedSubject = BehaviorSubject.createDefault("")
     private val zipCodeChangedSubject = BehaviorSubject.createDefault("")
-    private val personDataSavedSubject = BehaviorSubject.create<Boolean>()
 
     val firstNameState = firstNameStateRelay.toLiveData()
     val lastNameState = lastNameStateRelay.toLiveData()
@@ -40,7 +39,6 @@ class InputViewModel(private val personRepository: PersonRepository) : ViewModel
         firstNameChangedSubject.distinctUntilChanged()
             .map { inputFirstName ->
                 if (inputFirstName.isEmpty()) {
-
                     FirstNameState.ClearInput
                 } else {
                     FirstNameState.Idle
@@ -66,30 +64,38 @@ class InputViewModel(private val personRepository: PersonRepository) : ViewModel
                 }
             }.subscribe(zipCodeStateRelay).addTo(disposable)
 
-        personDataSavedSubject.filter { savingSuccessful -> savingSuccessful }
-            .doOnNext {
-                firstNameChangedSubject.onNext("")
-                lastNameChangedSubject.onNext("")
-                zipCodeChangedSubject.onNext("")
-                notificationStateRelay.accept(NotificationState.SavingSuccessful)
-            }.subscribe().addTo(disposable)
-
         notificationStateRelay.subscribe { notificationState.postValue(it) }.addTo(disposable)
     }
 
+    /**
+     * Function for the attached view notify the viewmodel about changes
+     * in the first name text field
+     */
     fun firstNameChanged(firstName: String) {
         firstNameChangedSubject.onNext(firstName)
     }
 
+    /**
+     * Function for the attached view notify the viewmodel about changes
+     * in the last name text field
+     */
     fun lastNameChanged(lastName: String) {
         lastNameChangedSubject.onNext(lastName)
     }
 
+    /**
+     * Function for the attached view notify the viewmodel about changes
+     * in the zip code text field
+     */
     fun zipCodeChanged(zipCode: String) {
         zipCodeChangedSubject.onNext(zipCode)
     }
 
+    /**
+     * Function for the attached view notify the viewmodel, that the save button was clicked
+     */
     fun saveButtonClicked() {
+        //Check if the input data is valid
         var personDataValid = true
 
         if (firstNameChangedSubject.value.isNullOrBlank()) {
@@ -122,9 +128,14 @@ class InputViewModel(private val personRepository: PersonRepository) : ViewModel
                 zipCode = Integer.valueOf(zipCodeChangedSubject.value!!.trim())
             )
 
+            //save data to local database
             personRepository.savePersonData(person)
 
-            personDataSavedSubject.onNext(true)
+            // clear person data input
+            firstNameChangedSubject.onNext("")
+            lastNameChangedSubject.onNext("")
+            zipCodeChangedSubject.onNext("")
+            notificationStateRelay.accept(NotificationState.SavingSuccessful)
         }
     }
 

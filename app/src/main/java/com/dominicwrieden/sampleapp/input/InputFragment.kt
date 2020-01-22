@@ -49,6 +49,7 @@ class InputFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //Observe live data from the viewmodel
         viewModel.firstNameState.observeWith(this) {
             showFirstNameState(it)
         }
@@ -61,6 +62,7 @@ class InputFragment : Fragment() {
         viewModel.notificationState.observeWith(this) { showNotificationState(it) }
 
 
+        //Observe changes of the input fields / button and deliver them to the viewmodel
         firstNameEditText
             .textChanges()
             .skipInitialValue()
@@ -88,6 +90,10 @@ class InputFragment : Fragment() {
         save.clicks().subscribe { viewModel.saveButtonClicked() }.addTo(disposable)
     }
 
+    /**
+     * Depending on the {@link #FirstNameState}, resets the input of the text field,
+     * sets an error or clear the error
+     */
     private fun showFirstNameState(firstNameState: FirstNameState) {
         when (firstNameState) {
             FirstNameState.Idle -> firstNameInputLayout.error = null
@@ -98,6 +104,10 @@ class InputFragment : Fragment() {
         }
     }
 
+    /**
+     * Depending on the {@link #LastNameState}, resets the input of the text field,
+     * sets an error or clear the error
+     */
     private fun showLastNameState(lastNameState: LastNameState) {
         when (lastNameState) {
             LastNameState.Idle -> lastNameInputLayout.error = null
@@ -108,6 +118,10 @@ class InputFragment : Fragment() {
         }
     }
 
+    /**
+     * Depending on the {@link #ZipCodeState}, resets the input of the text field,
+     * sets an error or clear the error
+     */
     private fun showZipCodeState(zipCodeState: ZipCodeState) {
         when (zipCodeState) {
             ZipCodeState.Idle -> zipCode.error = null
@@ -117,6 +131,9 @@ class InputFragment : Fragment() {
         }
     }
 
+    /**
+     * Depending on the {@link #ZipCodeErrors} sets the error to the text field
+     */
     private fun showZipCodeError(zipCodeErrors: ZipCodeErrors) {
         when (zipCodeErrors) {
             ZIP_CODE_MISSING ->
@@ -130,6 +147,9 @@ class InputFragment : Fragment() {
         }
     }
 
+    /**
+     * Depending on {@link #NotificationState}, shows a SnackBar
+     */
     private fun showNotificationState(notificationState: NotificationState) {
         when (notificationState) {
             NotificationState.SavingSuccessful ->
@@ -139,6 +159,9 @@ class InputFragment : Fragment() {
         }
     }
 
+    /**
+     * Helper function to show a SnackBar with the given message
+     */
     private fun showSnackbar(message: String) {
         activity?.let {
             Snackbar.make(it.findViewById(R.id.snackiContainer), message, Snackbar.LENGTH_SHORT)
