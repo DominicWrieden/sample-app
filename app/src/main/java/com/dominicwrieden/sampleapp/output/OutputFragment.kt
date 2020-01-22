@@ -34,7 +34,6 @@ class OutputFragment : Fragment() {
     private val peronListAdapter = GroupAdapter<GroupieViewHolder>()
     private val personListSection = Section()
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -49,8 +48,9 @@ class OutputFragment : Fragment() {
 
         personList.adapter = peronListAdapter
         peronListAdapter.add(personListSection)
+        personListSection.setHeader(OutputHeaderItem())
+        personListSection.setHideWhenEmpty(true)
 
-        personListSection.setHeader(HeaderItem())
 
         // TODO: If time, implement DataBinding
 
@@ -68,13 +68,11 @@ class OutputFragment : Fragment() {
      */
     private fun showPersonList(personListState: PersonListState.PersonList) {
         emptyListText.visibility = View.GONE
-        personList.visibility = View.VISIBLE
         personListSection.update(personListState.personList.map { PersonItem(it) })
     }
 
     private fun showEmptyState() {
-        personListSection.clear()
-        personList.visibility = View.GONE
+        personListSection.update(emptyList())
         emptyListText.visibility = View.VISIBLE
     }
 }
