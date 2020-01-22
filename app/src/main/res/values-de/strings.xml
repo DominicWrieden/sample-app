@@ -30,6 +30,7 @@
     <string name="output_list_empty_label">Leer \n :\'(</string>
 
     <!-- Web service screen -->
+    <string name="web_service_list_header">Online posts</string>
     <string name="web_service_empty_test">Leer \n :\'(</string>
     <string name="web_service_loading_error_snackbar_no_internet">Ladefehler: Bitte Verbindung überprüfen</string>
     <string name="web_service_loading_error_snackbar_sslv3">Ladefehler: Bitte GooglePlayServices installieren!</string>

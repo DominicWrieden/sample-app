@@ -52,6 +52,8 @@ class WebServiceFragment : Fragment() {
 
         postList.adapter = postListAdapter
         postListAdapter.add(postListSection)
+        postListSection.setHeader(WebServiceHeaderItem())
+        postListSection.setHideWhenEmpty(true)
 
         viewModel.postListeState.observeWith(this) { webServiceStates ->
             when (webServiceStates) {
@@ -75,7 +77,7 @@ class WebServiceFragment : Fragment() {
     }
 
     private fun showEmptyList() {
-        postListSection.clear()
+        postListSection.update(emptyList())
         emptyListText.visibility = View.VISIBLE
     }
 
