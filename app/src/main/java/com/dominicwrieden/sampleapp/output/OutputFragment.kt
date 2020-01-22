@@ -19,7 +19,6 @@ import kotlinx.android.synthetic.main.fragment_output.*
 
 class OutputFragment : Fragment() {
 
-
     private val personRepository: PersonRepository by Dependencies
 
     private val viewModel: OutputViewModel by lazy {
@@ -38,10 +37,7 @@ class OutputFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val root = inflater.inflate(R.layout.fragment_output, container, false)
-        return root
-    }
+    ) = inflater.inflate(R.layout.fragment_output, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -68,6 +64,9 @@ class OutputFragment : Fragment() {
         personListSection.update(personListState.personList.map { PersonItem(it) })
     }
 
+    /**
+     * Clears the list of persons and shows an empty screen text
+     */
     private fun showEmptyState() {
         personListSection.update(emptyList())
         emptyListText.visibility = View.VISIBLE

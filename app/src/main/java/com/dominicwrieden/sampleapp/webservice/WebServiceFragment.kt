@@ -42,10 +42,7 @@ class WebServiceFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val root = inflater.inflate(R.layout.fragment_web_service, container, false)
-        return root
-    }
+    ) = inflater.inflate(R.layout.fragment_web_service, container, false)
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,6 +53,7 @@ class WebServiceFragment : Fragment() {
         postListSection.setHeader(WebServiceHeaderItem())
         postListSection.setHideWhenEmpty(true)
 
+        // Observe live data from the viewmodel
         viewModel.postListeState.observeWith(this) { webServiceStates ->
             when (webServiceStates) {
                 is PostListState.PostList -> showPostList(webServiceStates.posts)
@@ -80,30 +78,45 @@ class WebServiceFragment : Fragment() {
                 ).show()
         }
 
-
+        //Observe the pull to refresh action and notify the viewmodel
         refresh.setOnRefreshListener {
             viewModel.refreshTriggered()
         }
     }
 
+    /**
+     * Show empty list of posts
+     */
     private fun showEmptyList() {
         postListSection.update(emptyList())
         emptyListText.visibility = View.VISIBLE
     }
 
+    /**
+     * Show list of posts
+     */
     private fun showPostList(posts: List<Post>) {
         emptyListText.visibility = View.GONE
         postListSection.update(posts.map { PostItem(it) })
     }
 
+    /**
+     * Show loading state
+     */
     private fun showLoading() {
         refresh.isRefreshing = true
     }
 
+    /**
+     * Hide loading state
+     */
     private fun hideLoading() {
         refresh.isRefreshing = false
     }
 
+    /**
+     * Show errors, which can occur while updating the post lists
+     */
     private fun showUpdateError(updateErrorState: UpdateErrorState) {
         when (updateErrorState) {
             UpdateErrorState.NoInternetUpdateError ->
@@ -115,6 +128,9 @@ class WebServiceFragment : Fragment() {
         }
     }
 
+    /**
+     * Helper function to show the SnackBar
+     */
     private fun showSnackbar(message: String) {
         activity?.let {
             Snackbar.make(it.findViewById(R.id.snackiContainer), message, Snackbar.LENGTH_LONG)
