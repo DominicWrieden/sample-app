@@ -41,6 +41,7 @@ class InputViewModel(private val personRepository: PersonRepository) : ViewModel
             .skip(1)
             .map { inputFirstName ->
                 if (inputFirstName.isEmpty()) {
+
                     FirstNameState.ClearInput
                 } else {
                     FirstNameState.Idle
@@ -73,8 +74,8 @@ class InputViewModel(private val personRepository: PersonRepository) : ViewModel
                 firstNameChangedSubject.onNext("")
                 lastNameChangedSubject.onNext("")
                 zipCodeChangedSubject.onNext("")
-            }.map { NotificationState.SavingSuccessful }
-            .subscribe(notificationStateRelay).addTo(disposable)
+                notificationStateRelay.accept(NotificationState.SavingSuccessful)
+            }.subscribe().addTo(disposable)
 
         notificationStateRelay.subscribe { notificationState.postValue(it) }.addTo(disposable)
     }

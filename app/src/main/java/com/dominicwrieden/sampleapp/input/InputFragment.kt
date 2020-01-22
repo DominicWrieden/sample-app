@@ -49,25 +49,37 @@ class InputFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.firstNameState.observeWith(this) { showFirstNameState(it) }
-        viewModel.lastNameState.observeWith(this) { showLastNameState(it) }
-        viewModel.zipCodeState.observeWith(this) { showZipCodeState(it) }
+        viewModel.firstNameState.observeWith(this) {
+            showFirstNameState(it)
+        }
+        viewModel.lastNameState.observeWith(this) {
+            showLastNameState(it)
+        }
+        viewModel.zipCodeState.observeWith(this) {
+            showZipCodeState(it)
+        }
         viewModel.notificationState.observeWith(this) { showNotificationState(it) }
 
 
-        lastNameEditText
-            .textChanges()
-            .subscribe { viewModel.firstNameChanged(it.toString()) }
-            .addTo(disposable)
-
         firstNameEditText
             .textChanges()
-            .subscribe { viewModel.lastNameChanged(it.toString()) }
+            .subscribe {
+                viewModel.firstNameChanged(it.toString())
+            }
+            .addTo(disposable)
+
+        lastNameEditText
+            .textChanges()
+            .subscribe {
+                viewModel.lastNameChanged(it.toString())
+            }
             .addTo(disposable)
 
         zipCodeEditText
             .textChanges()
-            .subscribe { viewModel.zipCodeChanged(it.toString()) }
+            .subscribe {
+                viewModel.zipCodeChanged(it.toString())
+            }
             .addTo(disposable)
 
         save.clicks().subscribe { viewModel.saveButtonClicked() }.addTo(disposable)
@@ -129,5 +141,11 @@ class InputFragment : Fragment() {
             Snackbar.make(it.findViewById(R.id.snackiContainer), message, Snackbar.LENGTH_SHORT)
                 .show()
         }
+    }
+
+
+    override fun onDetach() {
+        super.onDetach()
+        disposable.dispose()
     }
 }
