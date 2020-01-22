@@ -10,7 +10,7 @@ import com.dominicwrieden.sampleapp.data.entity.Post
 @Database(entities = [Person::class, Post::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract fun getPeronDao(): PersonDao
+    abstract fun getPersonDao(): PersonDao
 
     abstract fun getPostDao(): PostDao
 

@@ -31,7 +31,7 @@ class OutputFragment : Fragment() {
         }).get(OutputViewModel::class.java)
     }
 
-    private val peronListAdapter = GroupAdapter<GroupieViewHolder>()
+    private val personListAdapter = GroupAdapter<GroupieViewHolder>()
     private val personListSection = Section()
 
     override fun onCreateView(
@@ -46,13 +46,10 @@ class OutputFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        personList.adapter = peronListAdapter
-        peronListAdapter.add(personListSection)
+        personList.adapter = personListAdapter
+        personListAdapter.add(personListSection)
         personListSection.setHeader(OutputHeaderItem())
         personListSection.setHideWhenEmpty(true)
-
-
-        // TODO: If time, implement DataBinding
 
         viewModel.personListState.observeWith(this) { personListState ->
             when (personListState) {

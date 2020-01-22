@@ -20,7 +20,7 @@ object Dependencies {
     private val roomDb by lazy {AppDatabase.getInstance(App.instance)}
     private val sharedPreferenceUtil by lazy { SharedPreferenceUtil(App.instance) }
     private val personRepository: PersonRepository
-            by lazy { PersonRepositoryImpl.getInstance(roomDb.getPeronDao()) }
+            by lazy { PersonRepositoryImpl.getInstance(roomDb.getPersonDao()) }
     private val postRepository by lazy { PostRepositoryImpl.getInstance(roomDb.getPostDao(), api) }
     private val settingRepository by lazy { SettingRepository.getInstance(sharedPreferenceUtil) }
 
